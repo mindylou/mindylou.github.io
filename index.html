@@ -39,8 +39,13 @@
     <!--image specific-->
     <style>
         .jumbotron{
-            background-image: url('alone.jpg');
+            background-image: url('alone.png');
 
+        }
+        @media only screen and (max-width: 320px) {
+            .jumbotron{
+                background-image: url('alone_small.png');
+            }
         }
     </style>
 
@@ -81,7 +86,10 @@
                 <br> Computer Science | Business
                 <br> Class of 2019
                 </h3>
-                <a href="about.html">Find out more about me &raquo;</i></a>
+                
+                <div id="about">
+                    <a href="about.html">Find out more about me &raquo;</i></a>
+                </div>
                 </div>
             </div>
         </div>
