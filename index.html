@@ -24,13 +24,20 @@
             background-image: url('alone.png');
 
         }
-        @media only screen and (max-width: 320px) {
+        @media only screen and (max-width: 400px) {
             .jumbotron{
                 background-image: url('alone_small.png');
             }
             
             .jumbotron p{
                 font-size: 3vw;
+            }
+            .jumbotron a{
+                font-size: 16px;
+            }
+            
+            .dropdown-content a{
+                font-size: 22px;
             }
         }
     </style>
@@ -74,14 +81,14 @@
                 </h3>
                 
                 <div id="about">
-                    <a href="about.html">Find out more about me &raquo;</i></a>
+                    <a href="about.html"> Find out more about me &raquo;</a>
                 </div>
                 </div>
             </div>
         </div>
         
         <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn"><i class="fa fa-caret-square-o-down"></i></button>
+        <button onclick="myFunction()" class="dropbtn"><span class="fa fa-caret-square-o-down"></span></button>
             <div id="myDropdown" class="dropdown-content">
                 <a href="mailto:mml234@cornell.edu" target="_blank"><span class="fa fa-envelope"></span>
                 <a href="https://www.linkedin.com/in/mindylou" target="_blank"><span class="fa fa-linkedin"></span></a>

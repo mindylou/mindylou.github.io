@@ -67,6 +67,7 @@ body{
 
 .jumbotron a{
     color:  #29293d;
+    font-size: 1.6vw;
 }
 
 .jumbotron #about{
@@ -79,12 +80,12 @@ body{
 }
 
 .jumbotron p{
-  font-size: small;
+  font-size: 1.6vw;
   color: #000000;
 }
 
 .jumbotron i{
-  font-size: 22px;
+  font-size: 1.6vw;
 }
 
 .jumbotron h2{
