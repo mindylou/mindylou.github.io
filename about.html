@@ -37,12 +37,21 @@
     
     <style>
         .jumbotron{
-            background-image: url('me4.jpg');
+            background-image: url('me4.png');
         }
         
+        .jumbotron p{
+            font-size: 1.6vw;
+        }
         .jumbotron a{
-            color: #545559;
-            font-size: 22px;
+            color: #5f6163;
+            font-size: 1.6vw;
+        }
+        
+        @media only screen and (max-width: 320px) {
+            .jumbotron{
+                background-image: url('me4_small.png');
+            }
         }
     </style>
 
@@ -72,7 +81,7 @@
     
     <section class="jumbotron">
         <div class="container">
-            <div class="row-main">
+            <div class="col-sm-9">
                     <p>Welcome to my website! I am a rising sophomore from Massachusetts in Cornell University's
                     College of Engineering. I am planning on majoring in Computer Science with a minor in Business.
                     Outside of class, I am a member of
@@ -80,9 +89,9 @@
                     <a href="https://www.engineering.cornell.edu/admissions/undergraduate/ambassadors.cfm" target="_blank">Engineering Ambassadors</a>,
                     Club Swimming, and
                     <a href="https://ewb.engineering.cornell.edu/" target="_blank">Engineers Without Borders</a>.
-                    <br> In my free time, I love to try new food, collect stickers, and watch <i style="font-size: 22px;">The Mindy Project</i>
-                    (no relation). <br> I am interested in interactive experiences that combine my passion for helping others with my <br>
-                    skills in computer science. This summer, I was a teaching assistant for Girls Who Code's<br>
+                    In my free time, I love to try new food, collect stickers, and watch <i style="font-size: 1.6vw;">The Mindy Project</i>
+                    (no relation). I am interested in interactive experiences that combine my passion for helping others with my
+                    skills in computer science. This summer, I was a teaching assistant for Girls Who Code's
                     Summer Immersion Program in the Washington, DC area.
                     </p>
             </div>

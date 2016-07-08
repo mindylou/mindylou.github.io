@@ -62,12 +62,15 @@ body{
 .jumbotron h3{
   
     padding-bottom: 0px;
-    font-size: 35px;
+    font-size: 4vw;
 }
 
 .jumbotron a{
     color:  #29293d;
-    font-size: 25px;
+}
+
+.jumbotron #about{
+  font-size: 2.5vw;
 }
 
 .jumbotron a:hover{
@@ -76,20 +79,21 @@ body{
 }
 
 .jumbotron p{
-  font-size: 22px;
+  font-size: small;
   color: #000000;
 }
 
 .jumbotron i{
-  font-size: 30px;
+  font-size: 22px;
 }
 
 .jumbotron h2{
-    font-size: 70px;
+    font-size: 5vw;
     padding-top: 0px;
 }
 
 /* Dropdown */
+
 
 .dropbtn{
   border: none;
@@ -102,6 +106,7 @@ body{
   padding-right: 11px;
   transition: all 0.5s;
   cursor: pointer;
+  font-size: 22px;
   
 }
 
@@ -119,14 +124,16 @@ body{
   display: none;
   position:absolute;
   text-align: center;
-  min-width: 48px;
+  min-width: 41px;
   min-height: 45px;
+  size: 22px;
 }
 
 .dropdown-content a{
   display: block;
   background-color: rgba(26, 26, 26, 1);
   color: rgba(168, 168, 168, 1);
+  font-size: 22px;
   
 }
 
@@ -150,4 +157,9 @@ body{
 
 .row-main h1{
     font-size: 30px;
+}
+
+/* Mobile Optimization */
+@media only screen and (max-width: 320px) {
+    
 }
