@@ -6,16 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <!-- Bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
 
+    <!-- Scripts -->
     <script src="https://use.fontawesome.com/10aabb73c4.js"></script>
     <script src="dropdown.js"></script>
     
+    <!-- Google Analytics -->
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -27,25 +30,29 @@
 
     </script>
     
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
-   
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
-        
+    <!-- Page-specific CSS -->
     <style>
         .jumbotron{
-            background-image: url('me4.png');
+            background-image: url('images/me4_edit.png');
         }
         
-        @media only screen and (max-width: 1024px) {
+        @media only screen and (max-width: 480px) {
             .jumbotron{
-                background-image: url('me4_small.png');
+                background-image: url('images/me4_small.png');
             }
             .jumbotron p{
                 font-size: 3vw;
             }
             .jumbotron a{
                 font-size: 3vw;
+                
             }
             
             .jumbotron i{
@@ -73,13 +80,40 @@
                 </li>
                 <li><a href="about.html">about</a>
                 </li>
-                <li><a href="resume.html">résumé</a>
+                <li><a href="projects.html">projects</a>
                 </li>
-                <!--<li><a href="interests.html">interests</a>-->
+                <li><a href="resume.html">résumé</a>
                 </li>
             </ul>
         </div>
     </div>
+    </div>
+        
+    <section class="jumbotron">
+        <div class="container-fluid">
+            <div class="col-sm-8">
+                    <p>Welcome to my website! I am a rising sophomore from Massachusetts in Cornell University's
+                    College of Engineering. I am planning on majoring in Computer Science with a minor in Business.
+                    Outside of class, I am a member of
+                    <a href="http://wicc.acm.org/" target="_blank">Women in Computing at Cornell</a>,
+                    <a href="https://www.engineering.cornell.edu/admissions/undergraduate/ambassadors.cfm" target="_blank">Engineering Ambassadors</a>,
+                    Club Swimming, and
+                    <a href="https://ewb.engineering.cornell.edu/" target="_blank">Engineers Without Borders</a>.
+                    In my free time, I love to try new food, collect stickers, and watch <i>The Mindy Project</i>
+                    (no relation). 
+                    </p>
+            </div>
+        </div>   
+    </section>
+    
+    <div class="text_section">
+        <h3><strong>I am interested in interactive experiences that combine my passion for helping others with my skills in computer science.</strong></h3>
+    </div>
+    
+    <div class="parallax-1">
+        <div class="caption">
+            <span class="border"><a href="projects.html">PROJECTS&raquo;</a></span>
+        </div>
     </div>
 
     <div class="dropdown">
@@ -92,30 +126,9 @@
 
         </div>
     </div>
-        
-    <section class="jumbotron">
-        <div class="container">
-            <div class="col-sm-9">
-                    <p>Welcome to my website! I am a rising sophomore from Massachusetts in Cornell University's
-                    College of Engineering. I am planning on majoring in Computer Science with a minor in Business.
-                    Outside of class, I am a member of
-                    <a href="http://wicc.acm.org/" target="_blank">Women in Computing at Cornell</a>,
-                    <a href="https://www.engineering.cornell.edu/admissions/undergraduate/ambassadors.cfm" target="_blank">Engineering Ambassadors</a>,
-                    Club Swimming, and
-                    <a href="https://ewb.engineering.cornell.edu/" target="_blank">Engineers Without Borders</a>.
-                    In my free time, I love to try new food, collect stickers, and watch <i>The Mindy Project</i>
-                    (no relation). I am interested in interactive experiences that combine my passion for helping others with my
-                    skills in computer science. This summer, I was a teaching assistant for Girls Who Code's
-                    Summer Immersion Program in the Washington, DC area.
-                    </p>
-            </div>
-        </div>
-        
-
-        
-    </section>
     
     <footer class="footer">
+        <br>
         <p>&copy; 2016 Mindy Lou</p>
     </footer>
 
