@@ -59,7 +59,7 @@ body{
 /* Jumbotron */
 .jumbotron{
     display: flex;
-    min-height: 400px;
+    min-height: 350px;
     height: 100vh;
     
     /* parallax scrolling */
@@ -129,7 +129,7 @@ body{
   text-align: justify;
 }
 
-.parallax-1, .parallax-2, .parallax-3{
+.parallax-1, .parallax-2, .parallax-3, .parallax-4{
     padding: 0px;
     margin: 0 auto;
     background-attachment: fixed; 
@@ -140,11 +140,16 @@ body{
 }
 
 .parallax-1{
-    background-image: url("images/cornell.png");
+    background-image: url("images/clocktower.png");
     position: relative;
     min-height:500px;
 }
 
+.parallax-4{
+    background-image: url("images/cornell.png");
+    position: relative;
+    min-height:300px;
+} 
 
 .caption {
   position: absolute;
