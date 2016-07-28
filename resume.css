@@ -1,0 +1,108 @@
+.row{
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.col-sm-3{
+    padding: 0px;
+    text-align: center;
+}
+
+.parallax-4{
+    background-image: url("images/parallax/cornell.png");
+    position: relative;
+    min-height:300px;
+}
+
+.parallax-5{
+    background-image: url("images/parallax/boston.png");
+    position: relative;
+    min-height:300px;
+}
+
+.parallax-6{
+    background-image: url("images/parallax/kinkakuji.png");
+    position: relative;
+    min-height:300px; 
+}
+
+.parallax-7{
+    background-image: url("images/parallax/jokulsarlon.png");
+    position: relative;
+    min-height:300px;
+}
+
+.parallax-8{
+    background-image: url("images/parallax/nyc.png");
+    position: relative;
+    min-height:400px;
+}
+
+img{
+    padding: 10px; 
+}
+#cornellseal, #waylandlogo{
+    width: 120px;
+    height: 120px;
+}
+
+#gwclogo{
+    width: 145px;
+    height: 76.5px;
+}
+
+#cornellseal-resume{
+    width: 120px;
+    height: 120px;
+}
+
+#wellesley{
+    width: 138.6px;
+    height: 88.2px;
+}
+
+#ymca{
+    width: 135.2px;
+    height: 111.6px;
+}
+#ewb{
+    width: 160.5px;
+    height: 143.25px;
+}
+
+#wicc{
+    width: 120px;
+    height: 120px;
+}
+
+#cueng{
+    width: 147.4px;
+    height: 60.4px;
+}
+
+.col-sm-7{
+    text-align: left;
+}
+
+.col-sm-2{
+    text-align: left;
+    padding-top: 7px;
+}
+
+h4{
+    font-size: 1.8vw;
+}
+
+h5{
+    font-size: 1.4vw;
+}
+
+p{
+    font-size: 1.1vw;
+}
+
+.footer p{
+    font-size: 14px;
+}

@@ -129,7 +129,7 @@ body{
   text-align: justify;
 }
 
-.parallax-1, .parallax-2, .parallax-3, .parallax-4{
+.parallax-1, .parallax-2, .parallax-3, .parallax-4, .parallax-5, .parallax-6, .parallax-7, .parallax-8{
     padding: 0px;
     margin: 0 auto;
     background-attachment: fixed; 
@@ -140,16 +140,10 @@ body{
 }
 
 .parallax-1{
-    background-image: url("images/clocktower.png");
+    background-image: url("images/parallax/clocktower.png");
     position: relative;
-    min-height:500px;
+    min-height:400px;
 }
-
-.parallax-4{
-    background-image: url("images/cornell.png");
-    position: relative;
-    min-height:300px;
-} 
 
 .caption {
   position: absolute;

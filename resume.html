@@ -13,6 +13,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="resume.css">
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/10aabb73c4.js"></script>
@@ -39,23 +40,58 @@
 
     <!-- Page-specific CSS -->
     <style>
-        @media only screen and (max-width: 1024px) {
-            .jumbotron{
-               
-            }
-            .jumbotron p{
+        @media only screen and (max-width: 480px) {
+            h4{
                 font-size: 3vw;
             }
-            .jumbotron a{
-                font-size: 3vw;
+
+            h5{
+                font-size: 2.5vw;
+            }
+
+            p{
+                font-size: 2vw;
             }
             
-            .jumbotron i{
-                font-size: 3vw;
-            }
-            
+            #cornellseal, #waylandlogo{
+                width: 100px;
+                height: 100px;
+}
             .dropdown-content a{
                 font-size: 22px;
+            }
+            
+            
+            .parallax-4{
+                background-image: url("images/parallax/cornell.png");
+                min-height:200px;
+            }
+
+            .parallax-5{
+                background-image: url("images/parallax/boston_small.png");
+                min-height:200px;
+            }
+
+            .parallax-6{
+                background-image: url("images/parallax/kinkakuji_small.png");
+                min-height:200px; 
+            }
+
+            .parallax-7{
+                background-image: url("images/parallax/jokulsarlon_small.png");
+                position: relative;
+                min-height:300px;
+            }
+
+            .parallax-8{
+                background-image: url("images/parallax/nyc_small.png");
+                position: relative;
+                min-height:400px;
+            }
+            
+            #proj{
+                font-size: 5vw;
+                letter-spacing: 2px;
             }
     </style>
 </head>
@@ -86,6 +122,187 @@
     </div>
     </div>
     
+    <div class="parallax-4">
+        <div class="caption">
+            <span class="border">EDUCATION</span>
+        </div>
+    </div>
+    
+    <section class="container-fluid">
+        <div class="row">
+            <figure class="col-sm-3">
+                <img  id="cornellseal" src="images/cuseal.png" alt="Cornell Seal"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Cornell University, College of Engineering</strong> | Ithaca, NY</h4>
+                <h5>Bachelor of Science, Computer Science; Dyson Business Minor for Engineers</h5>
+                <p>Relevant Coursework: Object Oriented Programming and Data Structures, Discrete Structures,
+                Linear Algebra for Engineers, Multivariable Calculus for Engineers, Introduction to Computing Using Python, 
+                Introduction to Entrepreneurship and Enterprise Engineering</p> 
+            </figure>
+            <figure class="col-sm-2">
+                <p>Expected May 2019</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3" class="seal">
+                <img id="waylandlogo" src="images/wayland.png" alt="Wayland Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Wayland High School</strong> | Wayland, MA</h4>
+            </figure>
+            <figure class="col-sm-2">
+                <p>September 2011 - May 2015</p>
+            </figure>
+        </div>
+    </section>
+    
+    <div class="parallax-5">
+        <div class="caption">
+            <span class="border">EXPERIENCE</span>
+        </div>
+    </div>
+    
+    <section class="container-fluid">
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="gwclogo" src="images/gwclogo.png" alt="Girls Who Code Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Teaching Assistant</strong></h4>
+                <h5>Girls Who Code | Dulles, VA</h5>
+                <p>Girls Who Code seeks to close the gender gap in technology. As a teaching assistant, I taught Python, Scratch, Arduino,
+                and web development to a group of 20 high school girls for the Summer Immersion Program, communicated classroom
+                updates to Girls Who Code Staff, and mentored and supported students. </p>
+            </figure>
+            <figure class="col-sm-2">
+                <p>June 2016 - August 2016</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="cornellseal-resume" src="images/cuseal.png" alt="Cornell Seal"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Lifeguard</strong></h4>
+                <h5>Cornell University | Ithaca, NY</h5>
+                <p>I monitor pool facilities, observe swimmer activity, and provide emergency care when needed.</p>
+            </figure>
+            <figure class="col-sm-2">
+                <p>August 2015 - present</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="wellesley" src="images/wellesleylogo.png" alt="Wellesley Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Lifeguard</strong></h4>
+                <h5>Wellesley College | Wellesley, MA</h5>
+                <p>I administer swim tests, maintain the pool and boathouse on Lake Waban, and provide emergency care.</p>
+            </figure>
+            <figure class="col-sm-2">
+                <p>June 2015 - present</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="ymca" src="images/ymcalogo.png" alt="YMCA Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Swim Instructor</strong></h4>
+                <h5>MetroWest YMCA | Framingham, MA</h5>
+                <p>I taught private and group swim lessons to children of various skill levels.</p>
+            </figure>
+            <figure class="col-sm-2">
+                <p>June 2014 - August 2015</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="cccc" src="images/cccclogo.png" alt="CCCC Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Dance Instructor</strong></h4>
+                <h5>Cambridge Center for Chinese Culture | Waltham, MA</h5>
+                <p>I taught traditional Chinese dance to children ages 3 to 6.</p>
+            </figure>
+            <figure class="col-sm-2">
+                <p>February 2013 - June 2015</p>
+            </figure>
+        </div>
+    </section>
+    
+    <div class="parallax-6">
+        <div class="caption">
+            <span class="border">ACTIVITIES</span>
+        </div>
+    </div>
+    
+    <section class="container-fluid">
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="ewb" src="images/ewblogo.png" alt="EWB-Cornell Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Water Subteam Member</strong></h4>
+                <h5>Engineers Without Borders-Cornell</h5>
+                <p>I research and develop a water filtration and distribution methods to build a comprehensive system for rural
+                village in Bolivia. Named Water Subteam Assistant Lead for the 2016-2017 school year.</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="wicc" src="images/wicclogo.png" alt="WICC Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Volunteer Assistant</strong></h4>
+                <h5>Women in Computing at Cornell</h5>
+                <p>I volunteer for the LearnCS initiative, a weekend program for local area middle school and high school
+                students to learn the basics of computer science in partnership with Girls Who Code and Google CS First.</p>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-3">
+                <img id="cueng" src="images/cueng.png" alt="Cornell Engineering Logo"/>
+            </figure>
+            <figure class="col-sm-7">
+                <h4><strong>Engineering Ambassador</strong></h4>
+                <h5>Cornell University Engineering Admissions</h5>
+                <p>Engineering Ambassadors is an all-volunteer, selective student service group whose diverse membership
+                represents the College of Engineering at Cornell University. I assist the Engineering Admissions Office and give tours to 
+                prospective students of the Engineering Quad.</p>
+            </figure>
+        </div>   
+    </section>
+    
+    <div class="parallax-7">
+        <div class="caption">
+            <span class="border">SKILLS</span>
+        </div>
+    </div>
+    
+    <section class="container-fluid">
+        <div class="row">
+            <figure class="col-sm-12">
+                <h4><strong>Computer</strong></h4>
+                <h5>Python | Java | HTML | CSS | Javascript | Bootstrap | XCode & Swift | Microsoft Office</h5>
+            </figure>
+        </div>
+        <div class="row">
+            <figure class="col-sm-12">
+                <h4><strong>Languages</strong></h4>
+                <h5>English | Mandarin | Spanish</h5>
+            </figure>
+        </div>
+    </section>
+    
+    <div class="parallax-8">
+        <div class="caption">
+            <span class="border"><a id="proj" href="projects.html">PROJECTS&raquo;</a></span>
+        </div>
+    </div>
+    
     <div class="dropdown">
         <button onclick="myFunction()" class="dropbtn"><span class="fa fa-caret-square-o-down"></span></button>
             <div id="myDropdown" class="dropdown-content">
@@ -95,19 +312,9 @@
                 <a href="http://vsco.co/mlou15/images/1" target = "_blank"><span class="fa fa-camera-retro"></span></a>
             </div>
     </div>
+
     
-    <section class="jumbotron">
-        <div class="container">
-            <div class="row-main">
-                    <p>Coming soon!
-                    </p>
-            </div>
-        </div>
-        
-        
-    </section>
-    
-    <footer class="footer">
+    <footer class="footer"><br>
         <p>&copy; 2016 Mindy Lou</p>
     </footer>
 
