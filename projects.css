@@ -9,12 +9,12 @@
 }
 
 .parallax-2{
-  background-image: url("images/working.png");
+  background-image: url("images/parallax/working.png");
   min-height: 460px;
 }
 
 .parallax-3{
-    background-image: url("images/garden.png");
+    background-image: url("images/parallax/garden.png");
     min-height: 400px;
 }
 
