@@ -13,6 +13,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/10aabb73c4.js"></script>
@@ -30,103 +31,190 @@
 
     </script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link href="favicon.ico" rel="icon" type="image/x-icon" />
-
-
-    <!--Page-specific CSS-->
-    <style>
-        .jumbotron{
-            background-image: url('images/alone2.png');
-        }
-        .caption{
-            top: 35%;
-        }
-        .caption span.border {
-            padding: 18px;
-        }
-        @media only screen and (max-width: 600px) {
-            .jumbotron{
-                background-image: url('images/alone_small.png');
-            }
-
-            .caption span.border a{
-                letter-spacing: 2px;
-                font-size: 5vw;
-            }
-
-            .jumbotron p{
-                font-size: 3vw;
-            }
-            .jumbotron a{
-                font-size: 3vw;
-            }
-
-            .dropdown-content a{
-                font-size: 22px;
-            }
-        }
-    </style>
-
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
-    <!-- Bootstrap navbar -->
-    <div id="custom-bootstrap-menu" class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header"><a class="navbar-brand" href="index.html">mindy lou</a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse navbar-menubuilder">
-            <ul class="nav navbar-nav navbar-left">
-                <li><a href="index.html">home</a>
-                </li>
-                <li><a href="about.html">about</a>
-                </li>
-                <li><a href="projects.html">projects</a>
-                </li>
-                <li><a href="resume.html">résumé</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
+  <div class="jumbotron">
+    <div class="row">
+      <figure class="col-sm-2"> </figure>
+      <figure class= "col-sm-3">
+        <img id="me" src="assets/me.png" alt="photo of me">
+      </figure>
+      <!-- <img id="mindy" src="assets/mindy.png"> -->
+      <figure class="col-sm-6">
+        <h1>MINDY LOU</h1>
+        <h2>Computer Science major | Business minor</h2>
+        <h2>Cornell Engineering 2019</h2>
+        <br>
+        <div class="socials">
+        <a href="mailto:mml234@cornell.edu" target="_blank"><span class="fa fa-envelope-o"></span>
+        &nbsp;
+        <a href="https://www.linkedin.com/in/mindylou" target="_blank"><span class="fa fa-linkedin"></span></a>
+        &nbsp;
+        <a href="https://github.com/mindylou" target = "_blank"><span class="fa fa-github"></span></a>
+        &nbsp;
+        <a href="http://vsco.co/mlou15/images/1" target = "_blank"><span class="fa fa-camera-retro"></span></a>
+      </div>
+      </figure>
+  </div>
+  </div>
 
-
-            </ul>
-        </div>
+<!-- RESUME -->
+<section class="container-fluid">
+    <div class="row">
+        <figure class="col-sm-3">
+            <img  id="cornellseal" src="assets/cuseal.png" alt="Cornell Seal"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Cornell University, College of Engineering</strong> | Ithaca, NY</h4>
+            <h5>Bachelor of Science, Computer Science; Dyson Business Minor for Engineers</h5>
+            <p>Relevant Coursework: Object Oriented Programming and Data Structures, Discrete Structures,
+              Intro to iOS App Development, Linear Algebra for Engineers, Basic Engineering Probability and Statistics,
+            Multivariable Calculus for Engineers, Introduction to Computing Using Python,
+            Introduction to Entrepreneurship and Enterprise Engineering
+            <br> <br>
+            <strong>Awards:</strong> Dean's List (Fall 2016)
+          </p>
+        </figure>
+        <figure class="col-sm-2">
+            <p>Expected May 2019</p>
+        </figure>
     </div>
+    <div class="row">
+        <figure class="col-sm-3" class="seal">
+            <img id="waylandlogo" src="assets/wayland.png" alt="Wayland Logo"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Wayland High School</strong> | Wayland, MA</h4>
+        </figure>
+        <figure class="col-sm-2">
+            <p>September 2011 - May 2015</p>
+        </figure>
     </div>
+</section>
 
-    <!-- Jumbotron -->
-    <section class="jumbotron">
-        <div class="container">
-            <div class="row-main">
-                <div class="caption">
-                <span class="border"><a href="about.html">HEY, I'M MINDY.&raquo;</a></span>
-                <br>
-            </div>
-            </div>
-        </div>
-
-    </section>
-
-    <!-- Fixed contact dropdown -->
-    <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn"><span class="fa fa-caret-square-o-down"></span></button>
-            <div id="myDropdown" class="dropdown-content">
-                <a href="mailto:mml234@cornell.edu" target="_blank"><span class="fa fa-envelope"></span>
-                <a href="https://www.linkedin.com/in/mindylou" target="_blank"><span class="fa fa-linkedin"></span></a>
-                <a href="https://github.com/mindylou" target = "_blank"><span class="fa fa-github"></span></a>
-                <a href="http://vsco.co/mlou15/images/1" target = "_blank"><span class="fa fa-camera-retro"></span></a>
-            </div>
+<section class="container-fluid" id="EXPERIENCE">
+  <div class="row">
+      <figure class="col-sm-3">
+          <img id="belle" src="assets/belle.png" alt="Belle Apps Logo"/>
+      </figure>
+      <figure class="col-sm-7">
+          <h4><strong>iOS Developer</strong></h4>
+          <h5>Belle Apps | Remote</h5>
+          <p>Belle Apps is a Cornell-based startup that builds beautiful mobile apps and websites
+          for clients.</p>
+      </figure>
+      <figure class="col-sm-2">
+          <p>December 2016 - Present </p>
+      </figure>
+  </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <img id="gwclogo" src="assets/gwclogo.png" alt="Girls Who Code Logo"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Teaching Assistant</strong></h4>
+            <h5>Girls Who Code | Dulles, VA</h5>
+            <p>Girls Who Code seeks to close the gender gap in technology. As a teaching assistant, I taught Python, Scratch, Arduino,
+            and web development to a group of 20 high school girls for the Summer Immersion Program, communicated classroom
+            updates to Girls Who Code Staff, and mentored and supported students. </p>
+        </figure>
+        <figure class="col-sm-2">
+            <p>June 2016 - August 2016</p>
+        </figure>
     </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <img id="cornellseal-resume" src="assets/cuseal.png" alt="Cornell Seal"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Lifeguard</strong></h4>
+            <h5>Cornell University | Ithaca, NY</h5>
+            <p>I monitor pool facilities, observe swimmer activity, and provide emergency care when needed.</p>
+        </figure>
+        <figure class="col-sm-2">
+            <p>August 2015 - Present</p>
+        </figure>
+    </div>
+</section>
+
+<section class="container-fluid" id="activities">
+    <div class="row">
+        <figure class="col-sm-3">
+            <img id="ewb" src="assets/ewblogo.png" alt="EWB-Cornell Logo"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Water Subteam Assistant Lead</strong></h4>
+            <h5>Engineers Without Borders-Cornell</h5>
+            <p>As Assistant Lead, I develop water project goals and delegate tasks to other team members,
+            work with the subteam lead to evaluate subteam members’ work each semester and provide feedback, and
+            research and develop water filtration and distribution methods to build a comprehensive system for rural
+            village in Bolivia.</p>
+        </figure>
+    </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <img id="wicc" src="assets/wicclogo.png" alt="WICC Logo"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Representative</strong></h4>
+            <h5>Women in Computing at Cornell</h5>
+            <p>As a representative, I assist with event programming and act as a liason between the executive
+            board and the Women in Computing community. This semester, I am planning a pitching workshop for
+            women. </p>
+        </figure>
+    </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <img id="cueng" src="assets/cueng.png" alt="Cornell Engineering Logo"/>
+        </figure>
+        <figure class="col-sm-7">
+            <h4><strong>Engineering Ambassador</strong></h4>
+            <h5>Cornell University Engineering Admissions</h5>
+            <p>Engineering Ambassadors is an all-volunteer, selective student service group whose diverse membership
+            represents the College of Engineering at Cornell University. I assist the Engineering Admissions Office and give tours to
+            prospective students of the Engineering Quad.</p>
+        </figure>
+    </div>
+</section>
+
+<section class="container-fluid" id="skills">
+    <div class="row">
+        <figure class="col-sm-3">
+            <h4><strong>Programming</strong></h4>
+          </figure>
+          <figure class="col-sm-7">
+            <h5>Python | Java | Swift | HTML | CSS | Bootstrap | R | LaTeX | Javascript</h5>
+        </figure>
+    </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <h4><strong>Programs</strong></h4>
+          </figure>
+          <figure class="col-sm-7">
+            <h5>Eclipse IDE | XCode | RStudio | Git | GitHub</h5>
+        </figure>
+    </div>
+    <div class="row">
+        <figure class="col-sm-3">
+            <h4><strong>Languages</strong></h4>
+          </figure>
+          <figure class="col-sm-7">
+            <h5>English | Mandarin | Spanish</h5>
+        </figure>
+    </div>
+</section>
 
     <footer class="footer">
-        <p>&copy; 2016 Mindy Lou</p>
+      <br>
+        <p>&copy; 2017 Mindy Lou</p>
     </footer>
 </body>
 </html>
