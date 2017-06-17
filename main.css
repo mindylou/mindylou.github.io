@@ -68,6 +68,11 @@ img{
     padding: 10px;
 }
 
+#bose {
+  width: 144px;
+  height: auto;
+}
+
 #belle {
   width: 85.3px;
   height: 128px;
@@ -97,9 +102,15 @@ img{
     width: 135.2px;
     height: 111.6px;
 }
+
 #ewb{
     width: 160.5px;
     height: 143.25px;
+}
+
+#sun{
+  width: 110px;
+  height: auto;
 }
 
 #wicc{
@@ -121,6 +132,23 @@ img{
     padding-top: 7px;
 }
 
+#projects .row {
+  text-align: center;
+}
+
+#projects h4{
+  text-align: center;
+}
+
+#projects p, a{
+  text-align: justify;
+}
+
+#projects img {
+  height: 230px;
+  width: auto;
+}
+
 h4{
     font-size: 20px;
 }
@@ -135,6 +163,9 @@ h5{
 
 #skills {
   text-align: center;
+}
+
+#projects {
   background-color: #faf9fb;
 }
 
