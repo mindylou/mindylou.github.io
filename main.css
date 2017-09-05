@@ -41,6 +41,11 @@ a:visited {
   color: gray;
 }
 
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
 #mindy {
   width: 35vw;
   height: 35vw;
