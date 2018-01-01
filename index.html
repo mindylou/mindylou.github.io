@@ -12,11 +12,15 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://use.fontawesome.com/10aabb73c4.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/scrolling-nav.js"></script>
+
     <!-- Google Analytics -->
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -38,34 +42,87 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 
-<body>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">MINDY LOU</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#education">Education</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#experience">Experience</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#activities">Activities</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#projects">Projects</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#skills">Skills</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
   <div class="jumbotron">
     <div class="row">
-      <figure class="col-sm-2"> </figure>
-      <figure class= "col-sm-3">
+      <figure class="col-sm-1"> </figure>
+      <figure class= "col-sm-4">
+        <br> <br>
         <img id="me" src="assets/me.png" alt="photo of me">
       </figure>
-      <!-- <img id="mindy" src="assets/mindy.png"> -->
       <figure class="col-sm-6">
         <h1>MINDY LOU</h1>
-        <h2>Computer Science major | Business minor</h2>
-        <h2>Cornell Engineering 2019</h2>
+        <h4><br>
+          Hi! I'm Mindy, and I'm a junior computer science student minoring in
+          business in Cornell University's College of Engineering.
+          <br><br>
+          On campus, I'm a project lead for Engineers Without Borders, an iOS
+          developer for Cornell AppDev and the Cornell Daily Sun, an
+          Engineering Ambassador, and a member of Women in Computing at Cornell.
+          <br><br>
+          In my free time, I like to collect stickers, hand letter, watch
+          <i>The Bachelor</i> (I know), and eat potato-based products.
+          <a class="page-scroll" href="#education">Scroll down</a> to learn more
+          about me!
+          <br><br>
+          Feel free to reach out if you want to talk!
+        </h4>
+        <br>
         <div class="socials">
-        <a href="mailto:mml234@cornell.edu" target="_blank"><span class="fa fa-envelope-o"></span>
-        &nbsp;
-        <a href="https://www.linkedin.com/in/mindylou" target="_blank"><span class="fa fa-linkedin"></span></a>
-        &nbsp;
-        <a href="https://github.com/mindylou" target = "_blank"><span class="fa fa-github"></span></a>
-        &nbsp;
-        <a href="http://vsco.co/mlou15/images/1" target = "_blank"><span class="fa fa-camera-retro"></span></a>
-        &nbsp; <a href="Lou_Mindy.pdf">RESUME PDF</a>
-      </div>
-      </figure>
-  </div>
+          <a href="mailto:mml234@cornell.edu" target="_blank"><span class="fa fa-envelope-o"></span>
+            &nbsp;
+            <a href="https://www.linkedin.com/in/mindylou" target="_blank"><span class="fa fa-linkedin"></span></a>
+            &nbsp;
+            <a href="https://github.com/mindylou" target = "_blank"><span class="fa fa-github"></span></a>
+            &nbsp;
+            <a href="http://vsco.co/mlou15/images/1" target = "_blank"><span class="fa fa-camera-retro"></span></a>
+            &nbsp; <a href="Lou_Mindy.pdf">resume pdf</a>
+          </div>
+        </figure>
+    </div>
   </div>
 
 <!-- RESUME -->
-<section class="container-fluid">
+<section id="education" class="container-fluid">
   <div class="row">
     <h3><strong>EDUCATION</strong></h3>
   </div>
@@ -76,18 +133,27 @@
         <figure class="col-sm-7">
             <h4><strong>Cornell University, College of Engineering</strong> | Ithaca, NY</h4>
             <h5>Bachelor of Science, Computer Science; Dyson Business Minor for Engineers</h5>
-            <p><strong>Current Coursework (Fall 2017): </strong>Functional Programming,
-              Intro to Database Systems, Networks, Practicum in Artificial Intelligence,
-              Entrepreneurial Marketing and Strategy
+
+            <p><strong>Current Coursework (Spring 2018): </strong> Operating Systems,
+              Algorithms, Data-Driven Web Applications, Computer Simulation and Modeling,
+              Marketing Research
             </p>
-            <p><strong>Other Coursework:</strong> Computer System Organization and Programming,
-              Foundations of Artificial Intelligence, Object Oriented Programming and Data Structures,
-              Discrete Structures, Intro to iOS App Development, Linear Algebra, Probability and Statistics,
-            Differential Equations, Multivariable Calculus, Intro to Computing Using Python,
-            Finance, Financial Accounting
-            <br> <br>
-            <strong>Awards:</strong> Dean's List (Fall 2016, Spring 2017), Department of Computing and Information Sciences Department Grace Hopper Scholarship
-          </p>
+
+            <p><strong>Computer Science Coursework:</strong> Functional Programming,
+              Systems Organization and Programming,
+              Intro to Database Systems, Networks, Practicum in Artificial Intelligence,
+              Foundations of Artificial Intelligence,
+              Object Oriented Programming and Data Structures, Discrete Structures,
+              Intro to iOS App Development
+            </p>
+            <p><strong>Business Coursework:</strong> Entrepreneurial Marketing and Strategy,
+              Finance, Financial Accounting, Intro to Entrepreneurship and Enterprise
+              Engineering, Introductory Microeconomics
+            </p>
+            <p>
+            <strong>Awards:</strong> Dean's List (Fall 2016 - Present), Department
+            of Computing and Information Sciences Department Grace Hopper Scholarship
+            </p>
         </figure>
         <figure class="col-sm-2">
             <p>Expected May 2019</p>
@@ -106,7 +172,7 @@
     </div>
 </section>
 
-<section class="container-fluid" id="EXPERIENCE">
+<section class="container-fluid" id="experience">
   <div class="row">
     <h3><strong>EXPERIENCE</strong></h3>
   </div>
@@ -213,18 +279,16 @@
         <figure class="col-sm-7">
             <h4><strong>Project Lead</strong></h4>
             <h5><a href="https://ewb.engineering.cornell.edu/">Engineers Without Borders-Cornell</a></h5>
-            <p> This semester, EWB-Cornell is partnering with Cenderos, a
-              non-governmental organization focused on empowering and enriching
-              the lives of women migrants in Upala, Costa Rica. As Project Lead,
-              I assign tasks, communicate with the NGO, mentors, and executive board,
-              and evaluate subteam members' work each semester to design and
-              develop a renewable energy system that will service 80% of the
-              community's electricity needs. <br> <br>
+            <p> This semester as project lead, I spearheaded the new project
+              acquisition process and am excited to say that we are now
+              working working with a community in Ilagala, Tanzania on an
+              agricultural project! I manage seven other team members and
+              delegate tasks to prepare for assessment and travel. <br> <br>
 
-            Previously, as Assistant Lead, I developed water project goals and delegate tasks to other team members,
-            work with the subteam lead to evaluate subteam members’ work each semester and provide feedback, and
-            research and develop water filtration and distribution methods to build a comprehensive system for rural
-            village in Bolivia.</p>
+            Previously, as Assistant Lead, I worked with the subteam lead to
+            develop team goals and evaluate subteam members’ work each semester, and
+            researched and developed water filtration and distribution methods
+            to build a comprehensive system for rural village in Bolivia.</p>
         </figure>
     </div>
     <div class="row">
@@ -236,7 +300,8 @@
             <h5><a href="http://www.cornellappdev.com/">Cornell AppDev</a></h5>
             <p>Cornell AppDev is a project team at Cornell that focuses on iOS
               application development. I am currently working on iOS development
-              for a social podcasting platform. View our work on GitHub <a href="https://github.com/cuappdev/podcast-ios">here</a>.</p>
+              for a social podcasting platform called Castaway.
+              View our work on GitHub <a href="https://github.com/cuappdev/podcast-ios">here</a>.</p>
         </figure>
     </div>
     <div class="row">
@@ -246,8 +311,10 @@
         <figure class="col-sm-7">
             <h4><strong>iOS Developer</strong></h4>
             <h5><a href="http://cornellsun.com/">The Cornell Daily Sun</a></h5>
-            <p>This past semester, I joined a group of developers and designers to begin the process
-            of creating an iOS app for the school newspaper. View our work on GitHub <a href="https://github.com/cornell-sun/sun-ios">here</a>.</p>
+            <p>I am currently working with a team of three other developers and
+              two designers to create an iOS app for the student-run newspaper
+              on campus.
+            View our work on GitHub <a href="https://github.com/cornell-sun/sun-ios">here</a>.</p>
         </figure>
     </div>
     <div class="row">
@@ -258,7 +325,7 @@
             <h4><strong>Representative</strong></h4>
             <h5><a href="https://wicc.acm.org/">Women in Computing at Cornell</a></h5>
             <p>As a representative, I assist with event programming and act as a liason between the executive
-            board and the Women in Computing community. Last semester, I helped plan and develop promotional materials for a pitching workshop for
+            board and the Women in Computing community. Last year, I helped plan and develop promotional materials for a pitching workshop for
             women. </p>
         </figure>
     </div>
@@ -269,7 +336,7 @@
         </figure>
         <figure class="col-sm-7">
             <h4><strong>Engineering Ambassador</strong></h4>
-            <h5><a href="http://www.engineering.cornell.edu/admissions/undergraduate/">Cornell University Engineering Admissions</a></h5>
+            <h5><a href="https://www.engineering.cornell.edu/admissions/undergraduate-admissions">Cornell University Engineering Admissions</a></h5>
             <p>Engineering Ambassadors is an all-volunteer, selective student service group whose diverse membership
             represents the College of Engineering at Cornell University. I assist the Engineering Admissions Office and give tours to
             prospective students of the Engineering Quad.</p>
@@ -284,33 +351,43 @@
   <div class="row">
     <figure class="col-lg-2"> </figure>
     <figure class="col-lg-4">
-        <img id="eventful" src="assets/eventful.png" alt="Eventful App"/>
-        <h4>Eventful App</h4>
-        <p>This iOS app uses your location and the Eventful API to display events near you and was developed as a prototype for DateWars
-          while working for Belle Apps. View the code <a href="https://github.com/mindylou/iOS/tree/master/EventfulAPI">here</a>.</p>
+        <img id="castaway" src="assets/podcast.png" alt="Podcast App"/>
+        <h4>Castaway</h4>
+        <p>Castaway is an iOS app that changes the way you listen to podcasts by
+          emphasizing content discovery. So far, I have updated features such as the
+          player and series detail views to reflect MVP1 designs for beta
+          testing and added a search iTunes feature.
+          View the code <a href="https://github.com/cuappdev/podcast-ios">here</a>.</p>
     </figure>
     <figure class="soccer">
       <figure class="col-lg-4">
-        <img id="soccer" src="assets/soccer.png" alt="Soccer App"/>
-        <h4>Soccer</h4>
-        <p>This iOS app mimics the minigame of the same name on Facebook Messenger. High scores and usernames
-        are stored both locally and on Firebase. View the code <a href="https://github.com/mindylou/Soccer">here</a>.</p>
+        <img id="sunapp" src="assets/sunapp.png" alt="Cornell Sun App"/>
+        <h4>Cornell Sun</h4>
+        <p>This is an iOS app for reading the Cornell Daily Sun, Cornell's student-run
+          newspaper. I am working on the article view and building out its
+          core features and functionality.
+          View the code <a href="https://github.com/cornell-sun/sun-ios">here</a>.</p>
     </figure>
     <figure class="col-lg-2"> </figure>
   </div>
   <div class="row">
     <figure class="col-lg-2"> </figure>
     <figure class="col-lg-4">
-        <img id="spotipy" src="assets/spotipy.png" alt="Spotipy Code"/>
-        <h4>Spotipy Exploration</h4>
-        <p>I've been looking into the Spotipy library, a Python library for Spotify.
-        View files that I've worked on <a href="https://github.com/mindylou/spotipyRecommender">here</a>.</p>
+        <img id="zolda" src="https://github.com/mindylou/legend-of-zolda/blob/master/styles/screenshot.png?raw=true" alt="Legend of Tomnjam"/>
+        <h4>The Legend of Zolda</h4>
+        <p>For the final project in CS 3110: Functional Programming, myself
+          and three other teammates built The Legend of Zolda, a browser-based
+          NES Legend of Zelda-style game built in OCaml. Try the game <a href="zolda.html">here</a>
+        and view the code <a href="https://github.com/mindylou/legend-of-zolda">here</a>.
+        Our project won third place in the CS 3110 Staff Choice Awards.
+      </p>
     </figure>
     <figure class="col-lg-4">
         <img id="geofilter" src="assets/snapchat.png" alt="Snapchat Geofilters"/>
         <h4>Snapchat Geofilter Design</h4>
-        <p>I've created two Snapchat geofilters, one for my hometown and one for Duffield Hall at Cornell. The Wayland
-        geofilter was created in Photoshop and the Duffield one was made in Sketch. </p>
+        <p>I've created three Snapchat geofilters, one for my hometown, Gates Hall,
+          and Duffield Hall. The Wayland geofilter was created in Photoshop and
+          the Duffield and Gates ones were made in Sketch. </p>
     </figure>
     <figure class="col-lg-2"> </figure>
   </div>
@@ -320,35 +397,35 @@
   <div class="row">
     <h3><strong>SKILLS</strong></h3>
   </div>
-    <div class="row">
-        <figure class="col-sm-3">
-            <h4><strong>Programming</strong></h4>
-          </figure>
-          <figure class="col-sm-7">
-            <h5>Python, Java, Swift, C, HTML, CSS, Bootstrap, R, LaTeX, C++, Javascript, Objective-C</h5>
-        </figure>
-    </div>
-    <div class="row">
-        <figure class="col-sm-3">
-            <h4><strong>Programs</strong></h4>
-          </figure>
-          <figure class="col-sm-7">
-            <h5>Eclipse IDE, XCode, Sketch, RStudio, Git, GitHub, JIRA</h5>
-        </figure>
-    </div>
-    <div class="row">
-        <figure class="col-sm-3">
-            <h4><strong>Languages</strong></h4>
-          </figure>
-          <figure class="col-sm-7">
-            <h5>English, Mandarin, Spanish</h5>
-        </figure>
-    </div>
+  <div class="row">
+    <figure class="col-sm-3">
+      <h4><strong>Programming</strong></h4>
+    </figure>
+    <figure class="col-sm-7">
+      <h5>Python, Java, Swift, OCaml, C, SQL, HTML, CSS, Bootstrap,
+        R, LaTeX, C++, Javascript, Objective-C</h5>
+    </figure>
+  </div>
+  <div class="row">
+    <figure class="col-sm-3">
+      <h4><strong>Programs</strong></h4>
+    </figure>
+    <figure class="col-sm-7">
+      <h5>Eclipse IDE, XCode, Sketch, RStudio, Git, GitHub, JIRA</h5>
+    </figure>
+  </div>
+  <div class="row">
+    <figure class="col-sm-3">
+      <h4><strong>Languages</strong></h4>
+    </figure>
+    <figure class="col-sm-7">
+      <h5>English, Mandarin, Spanish</h5>
+    </figure>
+  </div>
 </section>
-
-    <footer class="footer">
-      <br>
-        <p>&copy; 2017 Mindy Lou</p>
-    </footer>
+  <footer class="footer">
+    <br>
+    <p>&copy; 2017 Mindy Lou</p>
+  </footer>
 </body>
 </html>

@@ -1,0 +1,213 @@
+body {
+  font-family: Lato, sans-serif;
+}
+
+.jumbotron {
+  background-color: #f9f9f9;
+}
+
+.container-fluid {
+  opacity: 0;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+.jumbotron p {
+  padding-top: 5px;
+  font-size: 20px;
+}
+
+h3 {
+  text-align: center;
+}
+
+h4 a:hover, h5 a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+h4 a, h5 a {
+  color: grey;
+}
+
+.socials {
+  font-size: 30px;
+  padding-left: 0px;
+}
+
+.socials a:link {
+  color: gray;
+}
+
+.socials a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+a:visited {
+  color: gray;
+}
+
+#me {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+}
+
+.row{
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.col-sm-3 {
+    padding: 0px;
+    text-align: center;
+}
+
+img{
+    padding: 10px;
+}
+
+#bose {
+  width: 144px;
+  height: auto;
+}
+
+#belle {
+  width: 85.3px;
+  height: 128px;
+}
+
+#cornellseal, #waylandlogo{
+    width: 120px;
+    height: 120px;
+}
+
+#gwclogo{
+    width: 145px;
+    height: 76.5px;
+}
+
+#cornellseal-resume{
+    width: 120px;
+    height: 120px;
+}
+
+#wellesley{
+    width: 130.6px;
+    height: 88.2px;
+}
+
+#ymca{
+    width: 135.2px;
+    height: 111.6px;
+}
+
+#ewb{
+    width: 160.5px;
+    height: 143.25px;
+}
+
+#appdev{
+  width: 102.8px;
+  height: auto;
+}
+
+#sun{
+  width: 110px;
+  height: auto;
+}
+
+#wicc{
+    width: 112px;
+    height: 128.2px;
+}
+
+#cueng{
+    width: 147.4px;
+    height: 60.4px;
+}
+
+.col-sm-7{
+    text-align: left;
+}
+
+.col-sm-2{
+    text-align: left;
+    padding-top: 7px;
+}
+
+#projects .row {
+  text-align: center;
+}
+
+#projects h4{
+  text-align: center;
+}
+
+#projects p {
+  text-align: justify;
+  color: black;
+}
+
+#experience a {
+  color: gray;
+}
+
+#experience a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+#activities a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+#projects img {
+  height: 230px;
+  width: auto;
+}
+
+h4{
+    font-size: 20px;
+}
+
+h5{
+    font-size: 16px;
+}
+
+#experience {
+  background-color: #f9f9f9;
+}
+
+#skills {
+  text-align: center;
+}
+
+#projects {
+  background-color: #f9f9f9;
+}
+
+.footer {
+  text-align: right;
+  padding-bottom: 12px;
+  padding-right: 15px;
+  background-color: #f9f9f9;
+}
+
+.footer a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.footer a:link {
+  color: gray;
+}
