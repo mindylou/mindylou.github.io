@@ -1,0 +1,54 @@
+{
+  "data": {
+  	"classes": [
+	    {
+	      "name": "Intro to iOS Development",
+	      "code": 1998,
+	      "instructor": "Austin Astorga and Monica Ong",
+	      "enrolled": true
+	    },
+	    {
+	      "name": "Intro to Computing Using Python",
+	      "code": 1110,
+	      "instructor": "Anne Bracy and Lillian Lee",
+	      "enrolled": false
+	    },
+	    {
+	      "name": "Object Oriented Programming",
+	      "code": 2110,
+	      "instructor": "David Gries",
+	      "enrolled": true
+	    },
+	    {
+	      "name": "Systems Programming",
+	      "code": 3410,
+	      "instructor": "Hakim Weatherspoon",
+	      "enrolled": false
+	    },
+	    {
+	      "name": "Intro to Collecting Your Data",
+	      "code": 9999,
+	      "instructor": "Mark Zuckerberg",
+	      "enrolled": true
+	    },
+	    {
+	      "name": "Machine Learning on the Blockchain",
+	      "code": 1234,
+	      "instructor": "The Business Side",
+	      "enrolled": true
+	    },
+	    {
+	      "name": "Minimalism",
+	      "code": 0,
+	      "instructor": "None",
+	      "enrolled": false
+	    },
+	    {
+	      "name": "Download Ithaca Transit, Pollo, and Recast!!!",
+	      "code": 1111,
+	      "instructor": "Your TAs and Course Staff",
+	      "enrolled": true
+	    }
+  ]
+  }
+}
