@@ -1,0 +1,30 @@
+[
+ {
+   "Country": "Multinational",
+   "Flag Color": "#808080"
+ },
+ {
+   "Country": "USA",
+   "Flag Color": "#3c3b6e"
+ },
+ {
+   "Country": "Japan",
+   "Flag Color": "#ffffff"
+ },
+ {
+   "Country": "China",
+   "Flag Color": "#ffde00"
+ },
+ {
+   "Country": "Russia",
+   "Flag Color": "#d52b1e"
+ },
+ {
+   "Country": "India",
+   "Flag Color": "#ff9933"
+ },
+ {
+   "Country": "Other",
+   "Flag Color": "#009b3a"
+ }
+]

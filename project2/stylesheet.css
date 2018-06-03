@@ -1,0 +1,189 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+}
+/*Split screen*/
+.left {
+    left: 0;
+    height: 110%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: visible;
+    padding-top: 20px;
+}
+
+.right {
+    right: 0;
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: visible;
+    padding-top: 20px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}
+
+#rightPane {
+    position: absolute;
+    top: 39%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}
+
+#piDescription {
+    position: absolute;
+    top: 97%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}
+
+#description {
+    position: absolute;
+    top: 113%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+}
+
+/*Starry background*/
+* {
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color:rgba(33, 33, 33, 0.9);
+    color:#ffffff;
+    display:block;
+    font: 14px/1.3 Arial,sans-serif;
+    height:50px;
+    position:relative;
+    z-index:5;
+}
+h2{
+    margin-top: 30px;
+    text-align: center;
+    font-family: 'Exo 2', sans-serif;
+}
+header h2{
+    font-size: 22px;
+    margin: 0 auto;
+    padding: 10px 0;
+    width: 80%;
+    text-align: center;
+}
+h3 {
+    font-size: 24px;
+}
+h1 {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 44px;
+}
+h4 {
+    font-family: 'Exo 2', sans-serif;
+}
+header a, a:visited {
+    text-decoration:none;
+    color:#fcfcfc;
+}
+
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-webkit-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-moz-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+@-ms-keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+
+.stars, .twinkling {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    height:100%;
+    display:block;
+}
+
+.stars {
+    background:#000 url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+    z-index:0;
+}
+
+.twinkling{
+    background:transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+    z-index:1;
+
+    -moz-animation:move-twink-back 200s linear infinite;
+    -ms-animation:move-twink-back 200s linear infinite;
+    -o-animation:move-twink-back 200s linear infinite;
+    -webkit-animation:move-twink-back 200s linear infinite;
+    animation:move-twink-back 200s linear infinite;
+}
+
+#topTitle {
+    left: 0;
+
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: visible;
+}
+
+/*Pi graph*/
+.outer-label {
+    font-size: 12px;
+    fill: #ccc;
+    text-align: center;
+}
+.center {
+    font-size: 18px;
+    text-transform: uppercase;
+    fill: #fff;
+}
+
+path {
+    cursor: pointer;
+}
+
+@-webkit-keyframes scale-up {
+    from { @include transform(scale(0.95)); opacity: 0; }
+    to { @include transform(scale(1)); opacity: 1; }
+}
+
+/* Tooltip */
+text.shadow {
+    stroke: black;
+    stroke-width: 4px;
+    opacity: 0.8;
+}

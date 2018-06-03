@@ -1,0 +1,415 @@
+<html>
+<head>
+<title>Who Produces the World's Best Chocolate?</title>
+<link href="https://fonts.googleapis.com/css?family=Barlow+Condensed" rel="stylesheet">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.1.0/d3-annotation.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<style>
+body { font-family: 'Barlow Condensed', Calibri, sans-serif; }
+path.country { fill: #E5E7E9; stroke: #ffffff; }
+
+/* Gradient styling*/
+.stop-left {
+    stop-color:  #fff45b; /* #ff9999;   worst */
+}
+
+.stop-right {
+    stop-color: #ff4216; /* #000066;  /* best */ 
+}
+
+.filled {
+    fill: url(#mainGradient);
+}
+
+.outlined {
+    fill:   none;
+    stroke: url(#mainGradient);
+    stroke-width: 4;
+}
+
+a {
+    color: #0066cc;
+}
+
+a:hover {
+    color: #ff9999;
+}
+
+.annotation {
+    font-size: 10px;
+}
+
+.annotation path {
+    stroke-width: 1.5px;
+}
+
+</style>
+</head>
+<body>
+<!-- <h3 align="center" style="margin-bottom:0px;margin-top:10px; font-size:40px">Who Produces the World's Best Chocolates?</h3> -->
+
+<svg id="barPlot" height="1000" width="200" style="float:left"></svg> 
+<svg id="map" height="750" width="810" style="float:center"></svg>  <!-- 400 900 -->
+<svg id="barPlotPerc" height="1000" width="200" style="float:right"></svg> 
+
+<p>
+Experts judged these chocolate bars from unpleasant (1) to elite (5) using a variety of criteria such as
+flavor, texture, and aftermelt. We then took this data and matched the home country of the companies that 
+produced the chocolate to the average rating that each chocolate received from the experts. 
+</p>
+<p>
+<b>Sources:</b> <br>
+<a href="https://www.kaggle.com/rtatman/chocolate-bar-ratings">Kaggle's chocolate bar ratings dataset.</a>
+<br>
+<a href="http://www.worldstopexports.com/chocolate-exporters/">Global Chocolate Production data.</a>
+</p>
+
+<script>
+var mapData;
+var chocolateData;
+var countryScores = {};
+var countryAverages = {};
+var countryPercentages = {}; // total percent cocoa by country
+var countryPercentageAvgs = {}; // average percent cocoa by country
+var rankData = [];
+var saleDataArr = {};
+var salesData;
+var barSvg = d3.select("#barPlot");
+var mapSvg = d3.select("#map");
+var barSvgPerc = d3.select("#barPlotPerc");
+
+// used for drawing countries
+var projection = d3.geoMercator().scale(125);
+var pathGenerator = d3.geoPath().projection(projection);
+var sequentialColors = [ '#fff45b', '#ff6b49', '#ff4216']; //[worst, best]
+var mapScale = d3.scaleLinear()
+.domain([2.5,3.75]) //(min-.5,max)
+.range(sequentialColors);
+
+d3.queue()
+.defer(d3.json, "countries.geo.json")
+.defer(d3.csv, "flavors_of_cacao.csv")
+.defer(d3.csv, "chocSales.csv")
+.await(callback);
+
+function callback(error, rawMap, rawChocolate ,rawSales) {
+    if (error) {
+        console.log(error);
+    }
+    chocolateData = rawChocolate;
+    salesData = rawSales;
+    mapData = rawMap.features;
+    projection.fitExtent([[0,0], [mapSvg.attr("width"), mapSvg.attr("height")]], rawMap);
+
+    // create countryScores: maps each country to array of scores
+    for (i = 0; i < chocolateData.length; i++) {
+        var country = chocolateData[i]["Company\nLocation"];
+        if (!(country in countryScores)) {
+            countryScores[country] = [];
+            countryPercentages[country] = [];
+        }
+        countryScores[country].push(chocolateData[i]["Rating"]);
+        countryPercentages[country].push(parseFloat(chocolateData[i]["Cocoa\nPercent"])/100);
+    }
+    // create countryAverages: maps each country to average score
+    for (var key in countryScores) {
+        var ratingsArray = countryScores[key];
+        var average = 0;
+        for(var i = 0; i < ratingsArray.length; i++) {
+            average += parseFloat(ratingsArray[i]);
+        }
+        average /= ratingsArray.length;
+        countryAverages[key] = average;
+    }
+    // create countryPercentAvgs: maps each country to average % cocoa
+    for (var key in countryPercentages) {
+        var sum = countryPercentages[key].reduce(function (a, b) { return a + b; });
+        countryPercentageAvgs[key] = (sum / countryPercentages[key].length).toFixed(4); // round to 4 decimal places
+    }
+
+    displayChocolate();
+    displayMap();
+}
+
+// display and color in map countries with scales
+function displayMap() {
+    // MAP 1: Average rating to country
+    var paths = mapSvg.selectAll("path.country")
+    .data(mapData);
+
+    paths = paths.enter().append("path")
+    .attr("class", "country").merge(paths);
+
+    paths
+    .style("fill", function (country) {
+        var average = countryAverages[country.properties.name];
+        if (average) {
+            return mapScale(Math.pow(average,1));
+        }
+    })
+    .attr("d", function (country) {
+        return pathGenerator(country);
+    })
+    .attr("transform", "translate(0, 50)");
+
+    mapSvg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("transform", "translate(450, 50)")
+    .attr("text-align", "center")
+    .attr("font-size", 40)
+    .attr("font-weight", "bold")
+    .text(function (t) { return "Who Produces the World's Best Chocolates?" });
+
+    mapSvg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("transform", "translate(450, 80)")
+    .attr("font-size", 20)
+    .text(function (t) { return "A visualization of experts' ratings of 1,700 chocolate bars from 60 countries" });
+
+    // Annotations
+    var belgiumProjection = projection([4.46, 37.5]);
+    var italyProjection = projection([12.5, 26.87])
+    const annotations = [{
+        note: {
+            label: "Two Belgian chocolate companies, Callebaut and Cote d'Or, received a rating of 1.",
+            title: "Lowest Chocolate Ratings",
+            wrap: 100,
+            align: "left",
+        },
+        x: belgiumProjection[0], // Belgium coordinates
+        y: belgiumProjection[1],
+        dx: -150,
+        dy: 30,
+        type: d3.annotationCalloutCircle,
+        subject: {
+            radius: 10,
+        }
+    }, {
+        note: {
+            label: "Amedei, an Italian chocolate company, received two elite ratings for their Chuao and Toscano Black chocolate bars.",
+            title: "Highest Chocolate Ratings",
+            wrap: 90,
+            align: "left"
+        },
+        x: italyProjection[0], // Belgium coordinates
+        y: italyProjection[1],
+        dx: 120,
+        dy: 120,
+        type: d3.annotationCalloutCircle,
+        subject: {
+            radius: 20,
+        }
+    }]
+    .map(function (d) { d.color = "black"; return d; });
+
+    d3.annotation().annotations(annotations);
+
+
+    const makeAnnotations = d3.annotation()
+    .type(d3.annotationCalloutCircle)
+    .annotations(annotations);
+
+    mapSvg
+    .append("g")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations);
+
+}
+
+function displayChocolate() {
+
+	var barHeight = 15;
+
+	var legendW = 175;
+	var legendH = 20;
+
+	var plotW = 200;
+
+
+    //console.log(data); 
+    var exporter = "";
+    //sales data
+	for (i = 0; i < salesData.length; i++) {
+		var exporter = salesData[i]["Exporter"];    
+		saleDataArr[exporter] = parseFloat(salesData[i][" Percent_Total"]);
+	}
+
+
+   // get rankData from countryAverages
+
+	for(var key in countryAverages){
+		if(key in saleDataArr){
+			rankData.push({rating:countryAverages[key],country:key,salesPerc:saleDataArr[key]});
+		}else{
+			rankData.push({rating:countryAverages[key],country:key,salesPerc:0});
+		}  
+
+	}
+
+	rankData.sort(function(a, b) {
+	return b.rating - a.rating;
+	});
+
+ 
+
+
+//rankData = rankData.slice(0,50);
+
+	var rankExtent = d3.extent(rankData, function (d) { return d.rating; });
+	rankScale = d3.scaleLinear()
+	.domain(rankExtent)
+	.range([20, 120]);
+
+	var saleExtent = d3.extent(rankData, function (d) { return d.salesPerc; });
+	saleScale = d3.scaleLinear()
+	.domain(saleExtent)
+	.range([45, 140]); 
+
+
+
+	//------- legend ---------
+	//color scale
+	var defs = barSvg.append("defs");
+	var mainGradient = defs.append('linearGradient')
+	.attr('id', 'mainGradient');
+
+	//create stops for colors
+	mainGradient.append('stop')
+	.attr('class', 'stop-left')
+	.attr('offset', '0');
+
+	mainGradient.append('stop')
+	.attr('class', 'stop-right')
+	.attr('offset', '1');
+
+
+	//rating
+	//gradient bar
+	barSvg.append("rect")
+	.classed('filled', true)
+	.attr("width", legendW)
+	.attr("height", legendH) //adjust spacing b/w bars
+	.attr("x", 0)
+	.attr("y", 20);
+
+	barSvg.append("text")
+	.attr("text-anchor", "middle")
+	.attr("x", legendW/2 )
+	.attr("y", legendH/2)
+	.attr("dy", ".35em")
+	.style("font-size","15px")
+	.text("5 Point Average Rating");
+
+	barSvg.append("text")
+	.attr("x", 0 )
+	.attr("y", legendH+27)
+	.attr("dy", ".35em")
+	.style("font-size","13px")
+	.text("Worst");
+
+	barSvg.append("text")
+	.attr("x", legendW-25)
+	.attr("y", legendH+27)
+	.attr("dy", ".35em")
+	.style("font-size","13px")
+	.text("Best");
+
+
+	//-----------------------------
+
+
+	//make sure all bars begin at different y
+	var bar = barSvg.selectAll("g")
+	.data(rankData)
+	.enter().append("g")
+	.attr("transform", function(d, i) { return "translate(0," + (i+4) * barHeight + ")"; });
+
+
+	//-------- append bars and their values -----------
+	bar.append("rect")
+	.attr("width", function(d) { return rankScale(d.rating); })
+	.attr("height", barHeight - 3) //adjust spacing b/w bars
+	.style("fill",function(d) { return mapScale(Math.pow(d.rating,1)); });
+
+
+
+	//append name at end
+	bar.append("text")
+	.attr("x", function(d) { return rankScale(d.rating)+15; }) //return countScale(d.count)+rankScale(d.rank)+15;
+	.attr("y", barHeight / 2)
+	.attr("dy", ".35em")
+	.style("font-size","14px")
+	.text(function(d) { return d.country; });
+
+	//first bar rating text
+	bar.append("text")
+	.attr("x", 3)
+	.attr("y", barHeight / 2)
+	.attr("dy", ".35em")
+	.style("font-size","13px")
+	.text(function(d) { return d.rating.toFixed(2); }); //only display to 2 decimal places
+
+	
+	//-------------- PERCENT BARPLOT -------------
+	
+	var barFill = "#99CC99";
+	//production % bar
+	barSvgPerc.append("rect")
+	.attr("width", legendH)
+	.attr("height", legendH)
+	.attr("y", 20)
+	.style("fill",barFill);
+
+	barSvgPerc.append("text")
+	.attr("x", legendH+5)
+	.attr("y", legendH+10)
+	.attr("dy", ".35em")
+	.style("font-size","15px")
+	.text("% of Global Chocolate Production"); 
+
+	//make sure all bars begin at different y
+	var barPerc = barSvgPerc.selectAll("g")
+	.data(rankData)
+	.enter().append("g")
+	.attr("transform", function(d, i) { return "translate(0," + (i+4) * barHeight + ")"; });
+
+
+	//-------- append bars and their values -----------
+
+
+	//sales bars
+	barPerc.append("rect")
+	.attr("width", function(d) { return saleScale(d.salesPerc); })
+	.attr("height", barHeight - 3) //adjust spacing b/w bars
+	//.attr("x",function(d) { return saleScale(d.salesPerc); })
+	.style("fill",barFill); 
+
+	//append name at end
+	barPerc.append("text")
+	.attr("x", function(d) {return saleScale(d.salesPerc)+15 ;}) //return countScale(d.count)+rankScale(d.rank)+15;
+	//.attr("text-anchor", "end")
+	//.attr("x", function(d) { return plotW - saleScale(d.salesPerc)-15; })
+	.attr("y", barHeight / 2)
+	.attr("dy", ".35em")
+	.style("font-size","14px")
+	.text(function(d) { return d.country; });
+
+
+	//2nd bar text, sales %
+	barPerc.append("text")
+	.attr("x", 3)
+	.attr("y", barHeight/2 - 1)
+	.attr("dy", ".35em")
+	.style("font-size","13px")
+	.text(function(d) { return d.salesPerc+"%"; }); 
+
+
+}
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<html>
+<head>
+  <title>Eye in the Sky - Data on Satellites</title>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=Exo+2:600|Open+Sans:300" rel="stylesheet">
+  <link href="stylesheet.css" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="left" id="leftPane">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+
+        <div id="topTitle">
+            <h1><b>EYE IN THE SKY</b></h1>
+            <h3>A look at the satellites orbiting our earth</h3>
+            <p>This is a look at all the active satellites currently circling
+            our planet!</p>
+        </div>
+
+        <div class="centered">
+            <svg id="piContainer" height="480" width="500"></svg>
+            <div id="piDescription">
+              Interact with the pi chart to get started. Hovering on a
+              country brings up the country's satellites on the right,
+              while clicking on it will show the satellite usage breakdown
+              of that country. Click on the outer ring to go back to
+              the main overview of all the countries.
+
+            </div>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+
+        <div id="rightPane">
+            <svg id="earth" height="500" width="500">
+            <image xlink:href="earth.png" x="225" y="225" height="50px" width="50px"/>
+            </svg>
+            <div id="description">
+                Each dot represents a satellite! <br>
+                Click on a satellite for more information.
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    var satelliteData;
+
+    //variable to check if a country has been selected
+    var CountryClicked = false;
+
+    // used for drawing earth svg
+    var earthSvg = d3.select("#earth");
+    var earthWidth = 500;
+    var earthHeight = 500;
+
+    d3.queue()
+    .defer(d3.csv, "Satellite_Database_edited_CSV.csv", mutateRow)
+    .defer(d3.json, "JsonDataset.json")
+    .defer(d3.json, "Flag_Colors_JSON.json")
+    .await(callback);
+
+    function mutateRow(row) {
+        row["Country_of_Operator"] = row["Country_of_Operator"].trim();
+        var orbitClass = row["Class_of_Orbit"].trim();
+        if (orbitClass == "LEO") {
+            row["Altitude"] = getRandomNumberInRange(180, 2000);
+        } else if (orbitClass == "MEO") {
+            row["Altitude"] = getRandomNumberInRange(5000, 27000);
+        } else if (orbitClass == "GEO") {
+            row["Altitude"] = getRandomNumberInRange(39000, 39999);
+        }
+        row["Position"] = Math.random(); // set random position in orbit for now
+
+        var indexOfSlash = row["Users"].indexOf("/");
+        if (indexOfSlash != -1) {
+            row["Users_Color"] = row["Users"].substring(indexOfSlash+1, row["Users"].length);
+        } else {
+            row["Users_Color"] = row["Users"];
+        }
+
+        var indexOfParen = row["Name"].indexOf("(");
+        if (indexOfParen != -1) {
+            row["Short_Name"] = row["Name"].substring(0, indexOfParen);
+        } else {
+            row["Short_Name"] = row["Name"];
+        }
+        return row;
+    }
+
+    // main callback function
+    satBreakdown = [];
+    colorCounter = 0;
+    jsonSize = 0;
+
+    //var colorRange = ["#ffb822","#00bf8c","#219ddb","#ad85cc","#f95275","#80B647","#11AEB4","#6791D4","#D36CA1","#FC803B"];
+    var useColors = {
+      "Government":"#219ddb",
+      "Commercial":"#00bf8c",
+      "Military":"#f95275",
+      "Civil":"#ad85cc"
+    }
+
+    function updateUse(childData, users, setSize = -1){
+      users.forEach(function(user){
+        //{colorIndex: 0, value: 20, childData: subData, label: "Call"}
+        userData = {};
+        userIdx = -1;
+        childData.forEach(function(data, idx){
+          if ((typeof(user) === "string" && user == data.label) ||
+            (typeof(user) === "object" && user.label == data.label)){
+            userData = data;
+            userIdx = idx;
+          }
+        })
+
+        //if user is an object, add its value on top of the current
+        //if type is a string, just increment by 1
+
+        if (userIdx == -1) { //if user not found
+
+          //userData.colorIndex = colorCounter;
+          userData.value = typeof(user) === "string" ? 1 : user.value;
+          userData.label = typeof(user) === "string" ? user : user.label;
+          userData.color = useColors[userData.label];
+          childData.push(userData);
+          colorCounter++;
+        } else {
+          userData.value = typeof(user) === "string" ? userData.value+1 : userData.value + user.value;
+          childData[userIdx] = userData;
+        }
+      })
+
+      return childData;
+    }
+
+    function updateBreakdown(country, users, colors){
+      countryData = {}
+      countryIdx = -1;
+      satBreakdown.forEach(function(data, idx){
+        if (data.label == country){
+          countryData = data;
+          countryIdx = idx;
+        }
+      })
+
+      if (countryIdx == -1){ //not found, add to satBreakdown
+
+        colors.forEach(function(countryColor){
+          if (countryColor["Country"] == country){
+            countryData.color = countryColor["Flag Color"];
+          }
+        })
+        //countryData.colorIndex = colorCounter;
+        countryData.value = 1;
+        countryData.label = country;
+        //colorCounter++;
+        //in this case, users is just a array of strings of users
+        if (users.length > 0)
+          countryData.childData = updateUse([], users);
+        satBreakdown.push(countryData);
+      } else {
+        countryData.value = countryData.value + 1;
+        if (users.length > 0)
+          countryData.childData = updateUse(countryData.childData, users);
+        satBreakdown[countryIdx] = countryData;
+      }
+    }
+
+    function cleanupBreakdown(bkdwn, colors){
+      var THRESH = 50; //the minimum number of satellites a country must have
+
+      var otherData = {}
+
+      colors.forEach(function(countryColor){
+        if (countryColor["Country"] == "Other"){
+          otherData.color = countryColor["Flag Color"];
+        }
+      })
+      //otherData.colorIndex = colorCounter;
+      otherData.value = 0;
+      otherData.label = "Other";
+      otherData.childData = [];
+
+      colorCounter++;
+
+      for(var i = 0; i < bkdwn.length;){
+        if(bkdwn[i].value < THRESH){ //delete and accumilate to "other"
+          otherData.value += bkdwn[i].value;
+          //in this case, childData is a list of json objects to tally
+          otherData.childData = updateUse(otherData.childData, bkdwn[i].childData);
+
+          bkdwn.splice(i, 1);
+        } else {
+          i++;
+        }
+      }
+
+      bkdwn.push(otherData)
+
+    }
+
+    function patchChild (bkdwn){
+      bkdwn.forEach(function(countryData, idx){
+          for (var i = countryData.childData.length; i < bkdwn.length; i++ ){
+            countryData.childData.push({
+              colorIndex: 0, value: 0.000001, label: ""
+            })
+          }
+          bkdwn[idx] = countryData;
+      })
+    }
+
+    function callback(error, rawSatellite, jsonSat, jsonColors) {
+        if (error) {
+            console.log(error);
+        }
+        satelliteData = rawSatellite.filter(d => d.Class_of_Orbit != "Elliptical");
+
+        jsonSize = jsonSat.length;
+        jsonSat.forEach(function(satData){
+          countryArr = satData["Country of Operator or Owner"].split("/");
+          useArr = satData["Users"].split("/");
+          countryArr.forEach(function(country){
+            updateBreakdown(country, useArr, jsonColors);
+          })
+
+        })
+        cleanupBreakdown(satBreakdown, jsonColors);
+        patchChild(satBreakdown);
+
+        drawEarth();
+        drawPiGraph(satBreakdown);
+    }
+
+    /* HELPER FUNCTIONS */
+    function getRandomNumberInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    var radiusScale;
+    var satellites;
+    var satellitePaths;
+
+    /* EARTH ANIMATIONS */
+    function drawEarth() {
+        var earthRadius = 25;
+
+        var earthCircle = earthSvg.append('image')
+        .attr({
+        'xlink:href': 'Earth.png',  // can also add svg file here
+        x: earthWidth/2 - 10,
+        y: earthHeight/2 - 10,
+        width: 20,
+        height: 20
+        });
+
+        //Use this code if we dont want to use the png image
+//        var earthCircle = earthSvg.append("circle")
+//        .attr("cx", earthWidth/2)
+//        .attr("cy", earthHeight/2)
+//        .attr("r", earthRadius)
+//        .style("fill", "blue");
+
+        radiusScale = d3.scaleLinear()
+        .domain([180, 40000]) // low earth orbit to high earth orbit
+        .range([earthRadius + 10, earthWidth/2 - 10]);
+
+        satellitePaths = earthSvg.selectAll("circle-orbit").data(satelliteData)
+        .attr("class", "circle-orbit");
+
+        satellites = earthSvg.selectAll("circle-satellites").data(satelliteData)
+        .attr("class", "circle-satellites");
+
+        // animating code
+        // circleLoop();
+        // function circleLoop() {
+        //     satellite.transition()
+        //     .duration(2000)
+        //     .ease(d3.easeLinear)
+        //     .attrTween("transform", function (d, i, a) {
+        //     return (function (t) {
+        //         var radius = radiusScale(d.Altitude);
+        //         var dx = earthWidth/2 + radius * Math.sin(t*2*Math.PI);
+        //         var dy = earthWidth/2 + radius * Math.cos(t*2*Math.PI);
+        //         return "translate(" + dx + "," + dy + ")";
+        //     });
+        //     })
+        //     .on("end", circleLoop);
+        // }
+
+    }
+
+    function handleSatelliteMouseOver(d, i) {
+        var mouse = d3.mouse(d3.select("#earth").node());
+        var name = d.Name;
+        var shortName = d.Short_Name;
+        var country = d.Country_of_Operator;
+        var purpose = d.Purpose;
+
+        d3.select(this)
+        .attr("r", 10)
+        .style("opacity", 1);
+
+        earthSvg.append("text")
+        .attr("id", "name")
+        .attr("x", function() {
+            if (mouse[0] < earthWidth/2) {
+                // left half
+                return mouse[0] + 10;
+            }
+            return mouse[0] - 10;
+        })
+        .attr("y", mouse[1] + 10)
+        .style("fill", "#ffffff")
+        .attr("text-anchor", function () {
+            if (mouse[0] < earthWidth / 2) {
+                return "start";
+            } else {
+                return "end";
+            }
+        })
+        .attr("font-size", "12px")
+        .text(function (d) { return shortName; })
+
+        d3.selectAll(".circle-orbit")
+        .filter(function (d) {
+            return d.Name == name;
+        })
+        .style("opacity", 1);
+    }
+
+
+
+    function handleSatelliteMouseOut(d, i) {
+        var name = d.Name;
+
+        d3.select(this)
+        .attr("r", 5)
+        .style("opacity", 0.3);
+
+        d3.select("#name").remove();
+        d3.select("#country").remove();
+        d3.select("#purpose").remove();
+
+        d3.selectAll(".circle-orbit")
+        .filter(function (d) {
+            return d.Name == name;
+        })
+        .style("opacity", 0.3);
+    }
+
+
+
+
+    /* FOR FILTERING BETWEEN GRAPHS */
+
+    function showSatellitesByCountryMouseIn(countryName) {
+        d3.selectAll(".circle-orbit").remove();
+        d3.selectAll(".circle-satellites").remove();
+
+        satellitePaths.enter()
+        .filter(function (d) {
+            if (countryName == "Other") {
+                return d.Country_of_Operator != "USA" &&
+                d.Country_of_Operator != "Russia" &&
+                d.Country_of_Operator != "India" &&
+                d.Country_of_Operator != "China" &&
+                d.Country_of_Operator != "Japan" &&
+                d.Country_of_Operator != "Multinational";
+            }
+            return d.Country_of_Operator == countryName;
+        })
+        .append("circle")
+        .attr("class", "circle-orbit")
+        .attr("cx", earthWidth/2)
+        .attr("cy", earthHeight/2)
+        .attr("r", function (d) {
+            return radiusScale(d.Altitude);
+        })
+        .style("stroke", function (d) { return useColors[d.Users]; })
+        .style("fill", "none")
+        .style("stroke-width", 1)
+        .style("opacity", 1);
+
+        satellites.enter()
+        .filter(function (d) {
+            if (countryName == "Other") {
+                return d.Country_of_Operator != "USA" &&
+                d.Country_of_Operator != "Russia" &&
+                d.Country_of_Operator != "India" &&
+                d.Country_of_Operator != "China" &&
+                d.Country_of_Operator != "Japan" &&
+                d.Country_of_Operator != "Multinational";;
+            }
+            return d.Country_of_Operator == countryName;
+        })
+        .append("circle")
+        .attr("class", "circle-satellites")
+        .attr("cx", function (d) {
+            return earthWidth/2 + radiusScale(d.Altitude) * Math.cos(d.Position * 2 * Math.PI);
+            })
+        .attr("cy", function (d) {
+            return earthHeight/2 + radiusScale(d.Altitude) * Math.sin(d.Position * 2 * Math.PI);
+            })
+        .attr("r", 5)
+        .style("opacity", 1)
+        .style("fill", function (d) { return useColors[d.Users_Color]; })
+        .on("mouseover", handleSatelliteMouseOver)
+        .on("mouseout", handleSatelliteMouseOut)
+        .on("click", satelliteClicked);
+
+    }
+
+
+    function showSatellitesByCountryClick(countryName) {
+        if (CountryClicked) {
+            // d3.selectAll(".circle-orbit").remove();
+            // d3.selectAll(".circle-satellites").remove();
+
+            satellitePaths.enter()
+            .filter(function (d) {
+                if (countryName == "Other") {
+                    return d.Country_of_Operator != "USA" &&
+                    d.Country_of_Operator != "Russia" &&
+                    d.Country_of_Operator != "India" &&
+                    d.Country_of_Operator != "China" &&
+                    d.Country_of_Operator != "Japan" &&
+                    d.Country_of_Operator != "Multinational";
+                }
+                return d.Country_of_Operator == countryName;
+            })
+            .append("circle")
+            .attr("class", "circle-orbit")
+            .attr("cx", earthWidth/2)
+            .attr("cy", earthHeight/2)
+            .attr("r", function (d) {
+                return radiusScale(d.Altitude);
+            })
+            .style("stroke", function (d) { return useColors[d.Users_Color]; })
+            .style("fill", "none")
+            .style("stroke-width", 1)
+            .style("opacity", 1);
+
+            satellites.enter()
+            .filter(function (d) {
+                if (countryName == "Other") {
+                    return d.Country_of_Operator != "USA" &&
+                    d.Country_of_Operator != "Russia" &&
+                    d.Country_of_Operator != "India" &&
+                    d.Country_of_Operator != "China" &&
+                    d.Country_of_Operator != "Japan" &&
+                    d.Country_of_Operator != "Multinational";
+                }
+                return d.Country_of_Operator == countryName;
+            })
+            .append("circle")
+            .attr("class", "circle-satellites")
+            .attr("cx", function (d) {
+                return earthWidth/2 + radiusScale(d.Altitude) * Math.cos(d.Position * 2 * Math.PI);
+                })
+            .attr("cy", function (d) {
+                return earthHeight/2 + radiusScale(d.Altitude) * Math.sin(d.Position * 2 * Math.PI);
+                })
+            .attr("r", 5)
+            .style("opacity", 1)
+            .style("fill", function (d) { return useColors[d.Users_Color]; })
+            .on("mouseover", handleSatelliteMouseOver)
+            .on("mouseout", handleSatelliteMouseOut)
+            .on("click", satelliteClicked);
+
+        }
+    }
+
+    function showSatellitesByCountryMouseOut(countryName) {
+        d3.selectAll(".circle-orbit")
+        .style("opacity", 0.3);
+
+        d3.selectAll(".circle-satellites")
+        .style("r", 5)
+        .style("opacity", 0.3);
+    }
+
+    function showSatellitesByTypeMouseIn(countryName, typeName) {
+        d3.selectAll(".circle-orbit").remove();
+        d3.selectAll(".circle-satellites").remove();
+
+        satellitePaths.enter()
+        .filter(function (d) {
+            if (countryName == "Other") {
+                return d.Country_of_Operator != "USA" &&
+                d.Country_of_Operator != "Russia" &&
+                d.Country_of_Operator != "India" &&
+                d.Country_of_Operator != "China" &&
+                d.Country_of_Operator != "Japan" &&
+                d.Country_of_Operator != "Multinational" && d.Users_Color == typeName;
+            }
+            return d.Country_of_Operator == countryName && d.Users_Color == typeName;
+        })
+        .append("circle")
+        .attr("class", "circle-orbit")
+        .attr("cx", earthWidth/2)
+        .attr("cy", earthHeight/2)
+        .attr("r", function (d) {
+            return radiusScale(d.Altitude);
+        })
+        .style("stroke", function (d) { return useColors[d.Users_Color]; })
+        .style("fill", "none")
+        .style("stroke-width", 1)
+        .style("opacity", 1);
+
+        satellites.enter()
+        .filter(function (d) {
+            if (countryName == "Other") {
+                return d.Country_of_Operator != "USA" &&
+                d.Country_of_Operator != "Russia" &&
+                d.Country_of_Operator != "India" &&
+                d.Country_of_Operator != "China" &&
+                d.Country_of_Operator != "Japan" &&
+                d.Country_of_Operator != "Multinational" && d.Users_Color == typeName;
+            }
+            return d.Country_of_Operator == countryName && d.Users_Color == typeName;
+        })
+        .append("circle")
+        .attr("class", "circle-satellites")
+        .attr("cx", function (d) {
+            return earthWidth/2 + radiusScale(d.Altitude) * Math.cos(d.Position * 2 * Math.PI);
+            })
+        .attr("cy", function (d) {
+            return earthHeight/2 + radiusScale(d.Altitude) * Math.sin(d.Position * 2 * Math.PI);
+            })
+        .attr("r", 5)
+        .style("opacity", 1)
+        .style("fill", function (d) { return useColors[d.Users_Color]; })
+        .on("mouseover", handleSatelliteMouseOver)
+        .on("mouseout", handleSatelliteMouseOut)
+        .on("click", satelliteClicked);
+
+    }
+
+
+    function showSatellitesByTypeMouseOut(countryName, typeName) {
+        d3.selectAll(".circle-orbit")
+        .style("opacity", 0.3);
+
+        d3.selectAll(".circle-satellites")
+        .style("r", 5)
+        .style("opacity", 0.3);
+    }
+
+    function satelliteClicked(d) {
+        d3.select("#description")
+        .html("<h4>" + d.Name + "</h4>" +
+            "<p>" + d.Country_of_Operator +
+            "<br>" + d.Users +
+            "<br>" + d.Comments + "</p>");
+    }
+
+  /*PI GRAPH*/
+
+  var definitionVisualization = {};
+
+  function drawPiGraph(satBreakdown) {
+    (function (visualization) {
+
+        visualization.donut = {};
+
+        var topLevelItem = {label: "Country"};
+
+        data = satBreakdown;
+
+        var dataOriginal = data.slice(0); //Keep a record around for book-keeping purposes
+
+        var selectedPath = [];
+
+        function endall(transition, callback) {
+            var n = 0;
+            transition
+                .each(function () {
+                    ++n;
+                })
+                .on("end", function () {
+                    if (!--n) callback.apply(this, arguments);
+                });
+        }
+
+        // Global Variables
+
+        var margin = {top: 50, right: 0, bottom: 10, left: 127.5};
+        var width = 550;
+        var height = 800;
+
+        var radius = 155;
+
+        var transformAttrValue = function (adjustLeft) {
+            var leftValue = margin.left + radius;
+            if (adjustLeft) {
+                leftValue = leftValue + adjustLeft;
+            }
+            return "translate(" + leftValue + "," + (margin.top + radius) + ")";
+        }
+
+
+        //var colors = d3.scaleOrdinal().range(colorRange);
+
+        var chart, chartLabelsGroup, chartCenterLabelGroup, chartCenterLabel,
+            arc, arcSmall, pie, path, chartSelect, chartSelectTertiary, arcOver;
+
+        function zoomIn(d) {
+
+            CountryClicked = true;
+
+            var hoverData = d3.select(this)["_groups"][0][0]["__data__"]["data"];
+
+            showSatellitesByCountryClick(hoverData.label);
+
+            if (!d.data.childData) {
+                //At deepest available level
+                return false;
+            }
+
+            var sel = d3.select(this);
+
+            //Search the current path to see the counter where it was selected. (Also update selected path)
+            for (var i = 0; i < path["_groups"][0].length; i++) {
+                if (path["_groups"][0][i] == sel["_groups"][0][0]) {
+                    selectedPath.push(i);
+                    break;
+                }
+            }
+
+            sel.attr("d", arc);
+
+            var startAngle = d.startAngle;
+            var endAngle = d.endAngle;
+
+            var arcSelect = d3.arc()
+                .startAngle(function (s) {
+                    return startAngle;
+                })
+                .endAngle(function (s) {
+                    return endAngle;
+                })
+                .innerRadius(function (i) {
+                    return radius - 20
+                })
+                .outerRadius(function (o) {
+                    return radius * 1.1
+                });
+
+            var newArc = chartSelect.append('path')
+                //.style("fill", colors(d.data.colorIndex))
+                .style("fill", d.data.color)
+                .attr("d", arcSelect)
+                .on("click", zoomOut(d));
+
+            newArc.transition()
+                .duration(1000)
+                .attrTween("d", function () {
+                    var newAngle = d.startAngle + 2 * Math.PI;
+                    var interpolate = d3.interpolate(d.endAngle, newAngle);
+                    return function (tick) {
+                        endAngle = interpolate(tick);
+                        return arcSelect(d);
+                    };
+                })
+                .on("end", zoomInSweepEnded(d.data.childData))
+
+        }
+
+        function zoomOut(clickedItem, selectedItem) {
+
+
+            return function () {
+
+                //Determine the current parent item while zooming.
+
+                var currentItem = getCurrentItemData(1);
+                selectedPath.pop(); //Update the path
+                //If we have another parent we need to show the zoom further out arc.
+
+                if (selectedPath.length > 0) {
+                    chartSelectTertiary.attr("style", "");
+                    chartSelectTertiary.on("click", function () {
+                        //TODO: Fix this!!!
+                      zoomOut({startAngle: 0, endAngle:0}, chartSelectTertiary.select("path"))();
+                    });
+                }
+
+                //Proceed with animations
+
+                selectedItem = selectedItem || d3.select(this);
+
+                selectedItem.on("click", null);
+
+                zoomZeArc(selectedItem, true, function () {
+
+                    var startAngle = clickedItem.startAngle;
+                    var endAngle = clickedItem.startAngle + 2 * Math.PI;
+
+                    var arcSelect = d3.arc()
+                        .startAngle(function (s) {
+                            return startAngle;
+                        })
+                        .endAngle(function (s) {
+                            return endAngle;
+                        })
+                        .innerRadius(function (i) {
+                            return radius - 20
+                        })
+                        .outerRadius(function (o) {
+                            return radius * 1.1
+                        });
+
+                    var arcFinal = d3.arc()
+                        .startAngle(function (s) {
+                            return startAngle;
+                        })
+                        .endAngle(function (s) {
+                            return endAngle;
+                        })
+                        .outerRadius(radius)
+                        .innerRadius(radius - 20);
+
+                    selectedItem.transition()
+                        .duration(750)
+                        .attrTween("d", function () {
+                            var newAngle = clickedItem.startAngle + 2 * Math.PI;
+                            var interpolate = d3.interpolate(newAngle, clickedItem.endAngle);
+                            return function (tick) {
+                                endAngle = interpolate(tick);
+                                return arcSelect(clickedItem);
+                            };
+                        })
+                        .on("end", function () {
+                            selectedItem.transition()
+                                .ease(d3.easeBounce)
+                                .duration(500)
+                                .attr("d", arcFinal)
+                                .on("end", function () {
+                                    //Finished animating and bouncing
+                                    d3.select(".secondary").html("");
+                                });
+                        });
+
+                });
+
+                path
+                    .transition()
+                    .ease(d3.easeBack)
+                    .duration(750)
+                    .attr("transform", "scale(.5), rotate(-90)")
+                    .style("opacity", 0)
+                    .call(endall, function () {
+
+                        path
+                            .attr("transform", "scale(1), rotate(0)")
+                            .style("opacity", 1)
+                            .data(pie(currentItem))
+                            .style("fill", function (d) {
+                                //return colors(d.data.colorIndex);
+                                return d.data.color;
+                            })
+                            .attr("d", arc)
+                            .on("click", zoomIn)
+                            .on(function (d, counter) {
+                                //this._current = d;)
+                            }); // store the initial angles
+
+                        updatePieLabels();
+
+                    })
+
+            }
+        }
+
+        function zoomInSweepEnded(childData) {
+            return function () {
+
+                chartSelectTertiary.attr("style", "display: none");
+
+                var selectedItem = d3.select(this);
+
+                path
+                    .attr("transform", "scale(0.5), rotate(-90)")
+                    .style("opacity", 0);
+
+                path
+                    .data(pie(childData))
+                    .style("fill", function (d) {
+                        //return colors(d.data.colorIndex);
+                        return d.data.color;
+                    })
+                    .attr("d", arc);
+
+                //path.exit().remove();
+
+                updatePieLabels();
+
+                path
+                    .transition()
+                    .ease(d3.easeBack)
+                    .duration(750)
+                    .attr("transform", "scale(1), rotate(0)")
+                    .style("opacity", 1)
+                    .call(function () {
+                        //Finished scaling
+                    });
+                ;
+
+                d3.selectAll(".zoom-out")
+                    .transition()
+                    .ease(d3.easeBack)
+                    .duration(750)
+                    .attr("transform", "scale(1.25)")
+                    .style("opacity", 0)
+                    .remove()
+                    .call(function () {
+                        //Finished zooming out
+                    });
+
+                setTimeout(function () {
+                    var secondaryHtml = d3.select(".secondary").html();
+                    d3.select(".tertiary").html(secondaryHtml);
+                }, 850);
+
+                zoomZeArc(selectedItem, false);
+
+            }
+        }
+
+        function zoomZeArc(selectedItem, reverse, callback) {
+
+
+            var zoomScale = 1.25;
+
+            var origOuterRadius = radius * 1.1;
+            var origInnerRadius = radius - 20;
+
+            var finalInnerRadius = radius * zoomScale;
+
+            var curInnerRadius = origInnerRadius;
+            var curOuterRadius = origOuterRadius;
+
+            var arcZoom = d3.arc()
+                .startAngle(0)
+                .endAngle(2 * Math.PI)
+                .outerRadius(function () {
+                    return (curOuterRadius);
+                })
+                .innerRadius(function () {
+                    return (curInnerRadius);
+                });
+
+            if (!reverse) {
+                selectedItem.attr("class", "zoom-out");
+            }
+
+            selectedItem
+                .transition()
+                .ease(d3.easeBack)
+                .duration(750)
+                .attrTween("d", function () {
+                    var iInner = reverse ? d3.interpolate(finalInnerRadius, origInnerRadius) : d3.interpolate(origInnerRadius, finalInnerRadius);
+                    return function (tick) {
+                        curInnerRadius = iInner(tick);
+                        curOuterRadius = origOuterRadius + ((curInnerRadius - origInnerRadius) / 1.75);
+                        return arcZoom(selectedItem);
+                    }
+                })
+                .on("end", function () {
+                    if (callback) {
+                        callback();
+                    }
+                });
+
+        }
+
+
+        function updatePieLabels() {
+
+            chartCenterLabel.text(getCurrentItem().label);
+
+            //Updates pie chart labels. Needs to be after path data gets set!
+
+            chartLabelsGroup.html("");
+
+            var sliceLabels = chartLabelsGroup.selectAll("text").data(pie(path.data()))
+            var currentData = getCurrentItemData();
+
+
+            sliceLabels
+                .enter()
+                .append("text")
+                .style("opacity", 0)
+                .transition().duration(750)
+                .style("opacity", 1)
+                .attr("class","outer-label")
+                .attr("transform", function(d) {
+                    return "translate(" + arcSmall.centroid(d) + ")";
+                })
+                .text(function(d ,i) {
+                    if (i < currentData.length) {
+                      return currentData[i].label;
+                    } else {
+                      return "";
+                    }
+                });
+
+        }
+
+        function getCurrentItem() {
+            if (selectedPath.length == 0) {
+                return topLevelItem;
+            }
+            var currentItem = data;
+            for (var i = 0; i < selectedPath.length; i++) {
+                if (i + 1 < selectedPath.length) {
+                    currentItem = currentItem[selectedPath[i]].childData;
+                } else {
+                    currentItem = currentItem[selectedPath[i]];
+                }
+            }
+            return currentItem;
+        }
+
+        function getCurrentItemAsBreadCrumbs() {
+            if (selectedPath.length == 0) {
+                return [topLevelItem.label];
+            }
+            var currentItem = data;
+            var returnList = [topLevelItem.label];
+            for (var i = 0; i < selectedPath.length; i++) {
+                returnList.push(currentItem[selectedPath[i]].label);
+                if (i + 1 < selectedPath.length) {
+                    currentItem = currentItem[selectedPath[i]].childData;
+                } else {
+                    currentItem = currentItem[selectedPath[i]];
+                }
+            }
+            return returnList;
+        }
+
+        function getCurrentItemData(startIndex) {
+            startIndex = startIndex | 0;
+            var currentItem = data;
+            for (var i = startIndex; i < selectedPath.length; i++) {
+                currentItem = currentItem[selectedPath[i]].childData
+            }
+            return currentItem;
+        }
+
+        visualization.donut.getBreadCrumbs = function() {
+            return getCurrentItemAsBreadCrumbs();
+        };
+
+        visualization.donut.randomize = function() {
+
+            //Set some random dataz and animate it
+
+            var currentDataLevel = getCurrentItemData();
+            for (var i=0; i<currentDataLevel.length; i++) {
+                currentDataLevel[i].value = currentDataLevel[i].value * getRandomNumberInRange(75, 125) / 100.0;
+            }
+
+            path.data(pie(currentDataLevel))
+
+            path.transition().duration(750).attrTween("d", function(a) {
+                var i = d3.interpolate(this._current, a);
+                this._current = i(0);
+                return function(t) {
+                    return arc(i(t));
+                };
+            });
+
+        };
+
+        visualization.donut.show = function () {
+
+            //var svgContainer = d3.select("#graph-container");
+            //svgContainer.html("");
+
+            data = dataOriginal.slice(0);
+            selectedPath = [];
+
+            // Primary Chart
+          chart =
+                /*svgContainer
+                .append("svg")
+                .attr("id", "svg-container")
+                .attr("width", width)
+                .attr("height", height)*/
+                d3.select("#piContainer")
+                .append("g")
+                .attr("id","piGraph")
+                .attr("transform","translate(0,0)")
+                .append("g")
+                .attr("class", "primary")
+                .attr("transform", transformAttrValue());
+
+            chartLabelsGroup = d3.select("#piGraph")
+                .append("g")
+                .attr("class", "labelGroup")
+                .attr("transform", transformAttrValue(-20));
+
+            chartCenterLabelGroup = d3.select("#piGraph")
+                .append("g")
+                .attr("class", "labelCenterGroup")
+                .attr("transform", transformAttrValue());
+
+            chartCenterLabel = chartCenterLabelGroup
+                .append("text")
+                .attr("dy", ".35em")
+                .attr("class", "chartLabel center")
+                .attr("text-anchor", "middle");
+
+            arc = d3.arc()
+                .outerRadius(radius)
+                .innerRadius(radius - 20);
+
+            arcSmall = d3.arc()
+                .outerRadius(radius - 40)
+                .innerRadius(radius - 80);
+
+            pie = d3.pie()
+                .value(function (d) {
+                    return d.value;
+                })
+                .sort(null);
+
+            path = chart.selectAll("path")
+                .data(pie(data))
+                .enter().append("path")
+                .style("fill", function (d) {
+                    //return colors(d.data.colorIndex);
+                    return d.data.color;
+                })
+                .attr("d", arc)
+                .each(function (d) {
+                    this._current = d;
+                }); // store the initial angles
+
+            updatePieLabels();
+
+            // Secondary Chart
+            chartSelect = d3.select("svg")
+                .append("g")
+                .attr("class", "secondary")
+                .attr("transform", transformAttrValue());
+
+            // Tertiary Chart
+            chartSelectTertiary = d3.select("svg")
+                .append("g")
+                .attr("class", "tertiary")
+                .attr("style", "display:none")
+                .attr("transform", transformAttrValue());
+
+            // Arc Interaction Sizing
+            arcOver = d3.arc()
+                .outerRadius(radius * 1.1)
+                .innerRadius(radius - 20);
+
+            var tooltip = d3.select("#leftPane")
+            	.append("text")
+              .attr("id","tooltip")
+            	.style("position", "absolute")
+            	.style("z-index", "100")
+            	.style("visibility", "hidden")
+
+
+            var tooltip2 = d3.select("#leftPane")
+            	.append("text")
+              .attr("id","tooltip2")
+            	.style("position", "absolute")
+            	.style("z-index", "100")
+            	.style("visibility", "hidden")
+              .attr("class", "shadow")
+
+            var tooltip3 = d3.select("#leftPane")
+            	.append("text")
+              .attr("id","tooltip2")
+            	.style("position", "absolute")
+            	.style("z-index", "100")
+            	.style("visibility", "hidden")
+              .attr("class", "shadow")
+
+            path.on("mouseover", function () {
+                //return false;
+                d3.select(this).transition()
+                    .ease(d3.easeBounce)
+                    .duration(100)
+                    .attr("d", arcOver);
+
+                var hoverData = d3.select(this)["_groups"][0][0]["__data__"]["data"]
+                var denom = selectedPath.length > 0 ? data[selectedPath[selectedPath.length-1]].value : jsonSize;
+                var percent = (hoverData.value/denom).toString();
+                percent = percent.substring(2,4)+"."+percent.substring(4,5)+"%";
+                percent = percent.replace(/^0+/, '');
+
+                tooltip.text(hoverData.label);
+                tooltip2.text(hoverData.value+" satellites");
+                tooltip3.text(percent);
+
+                tooltip.style("visibility", "visible").style("text-shadow", "0.5px 0.5px 0.5px #808080");
+                tooltip2.style("visibility", "visible").style("text-shadow", "0.5px 0.5px 0.5px #808080");
+                tooltip3.style("visibility", "visible").style("text-shadow", "0.5px 0.5px 0.5px #808080");
+
+                if (selectedPath.length > 0){ //country selected
+                    CountryClicked = true;
+
+                } else {
+                    CountryClicked = false;
+                }
+
+
+                if(CountryClicked){
+                    showSatellitesByTypeMouseIn(getCurrentItem().label, hoverData.label);
+                } else {
+                    showSatellitesByCountryMouseIn(hoverData.label);
+                }
+
+
+                //use selectionPath to know which idx of selected country, find its string, then
+                //feed it in along with hoverData.label (the usage string)
+
+            }).on("mousemove", function(){
+              var hoverData = d3.select(this)["_groups"][0][0]["__data__"]
+              //3.2
+              if (hoverData.endAngle < 3.2){
+                tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+20)+"px");
+                tooltip2.style("top", (event.pageY+10)+"px").style("left",(event.pageX+20)+"px");
+                tooltip3.style("top", (event.pageY+30)+"px").style("left",(event.pageX+20)+"px");
+              } else {
+                var labelOff = 35+(hoverData["data"].label.length*6);
+                var valueOff = 90+(hoverData["data"].value.toString().length*5);
+
+                var denom = selectedPath.length > 0 ? data[selectedPath[selectedPath.length-1]].value : jsonSize;
+                var percent = (hoverData.value/denom).toString();
+                percent = percent.substring(2,4)+"."+percent.substring(4,5)+"%";
+                percent = percent.replace(/^0+/, '');
+                var percentOff = 35+(percent.length*5);
+                tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX-labelOff)+"px");
+                tooltip2.style("top", (event.pageY+10)+"px").style("left",(event.pageX-valueOff)+"px");
+                tooltip3.style("top", (event.pageY+30)+"px").style("left",(event.pageX-percentOff)+"px");
+              }
+
+            }).on("mouseout", function () {
+                //return false;
+                d3.select(this).transition()
+                    .ease(d3.easeBounce)
+                    .duration(500)
+                    .attr("d", arc);
+
+                tooltip.style("visibility", "hidden");
+                tooltip2.style("visibility", "hidden");
+                tooltip3.style("visibility", "hidden");
+
+                var hoverData = d3.select(this)["_groups"][0][0]["__data__"]["data"]
+
+
+                if(CountryClicked == true){
+                    showSatellitesByTypeMouseOut(getCurrentItem().label, hoverData.label);
+                } else {
+                    showSatellitesByCountryMouseOut(hoverData.label);
+                }
+
+            }).on("click", zoomIn);
+
+        };
+
+        return visualization;
+
+    }(definitionVisualization));
+
+    definitionVisualization.donut.show();
+  }
+
+</script>
+
+</html>
